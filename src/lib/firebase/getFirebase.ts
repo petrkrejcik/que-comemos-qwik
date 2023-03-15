@@ -10,7 +10,7 @@ const config: FirebaseOptions = {
 	appId: '1:545019553365:web:333935cb9e69e47e4196dc'
 };
 
-export default async () => {
+export default () => {
 	try {
 		return getApp();
 	} catch (e) {

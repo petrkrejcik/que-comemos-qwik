@@ -1,7 +1,8 @@
 import { getApp } from 'firebase/app';
 import { connectFirestoreEmulator, Firestore, getFirestore } from 'firebase/firestore';
 
-const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean
+const disableFirebaseEmulators = true
+// const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean
 
 export default () => {
 	const firestore = getFirestore(getApp());

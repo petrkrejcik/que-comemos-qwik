@@ -1,42 +1,41 @@
 import { component$ } from "@builder.io/qwik";
+import { useWeekPlan } from "~/lib/weekPlan/weekPlan";
 
-type WeekPlanProps= {
-	weekId: number;
-}
+type WeekPlanProps = {
+  weekId: string;
+};
 
 export default component$((props: WeekPlanProps) => {
-  const week = 1;
-	console.log('🛎 ', 'props', props);
+  const { loading, weekPlans } = useWeekPlan("mojeI6fi9GdeWywMEn9Yr", props.weekId);
+  const weekPlan = weekPlans[props.weekId] || {};
+
+  const days = Array.from({ length: 7 }, (_, i) => weekPlan[`d${i as 0|1|2|3|4|5|6}`]);
 
   return (
-    <div class="w-full">
-      <div class="tabs max-w-sm mb-4 mx-auto">
-        <a
-          class="text-inherit	text-base tab tab-bordered flex-grow uppercase h-10 {time === 'lunch' &&
-					'tab-active'}"
-          href={`/week/${week}/lunch`}
-        >
-          Comida
-        </a>
-        <a
-          class="text-inherit text-base tab tab-bordered flex-grow uppercase h-10 {time ===
-					'dinner' && 'tab-active'}"
-          href={`/week/${week}/dinner`}
-        >
-          Cena
-        </a>
-      </div>
-      <ul class="divide-y divide-zinc-800"></ul>
-    </div>
+    <>
+        <ul class="divide-y divide-current">
+          {days.map((day, i) => (
+            <div class="max-w-sm mx-auto flex items-center py-2" key={i}>
+              <div class="avatar placeholder mr-10">
+                <div class={`bg-neutral rounded-full w-12 h-12 ${false && "border-2 border-lime-500"} `}>
+                  <span class="capitalize">{i}</span>
+                </div>
+              </div>
+
+              <div class="w-full flex items-center h-12">
+                {loading ? (
+                  <div class="w-44 h-6 bg-base-200 dark:bg-base-100 rounded animate-pulse" />
+                ) : day?.lunch ? (
+                  <a class="link link-hover " href={`/`}>
+									{day.lunch.name}
+								</a>
+                ) : (
+                  "nemam"
+                )}
+              </div>
+            </div>
+          ))}
+        </ul>
+    </>
   );
 });
-
-{
-  /* <style>
-	.hamburgerIcon {
-		mask-image: url(/icons/hamburgerMenu.svg);
-		mask-repeat: no-repeat;
-		mask-position: center;
-	}
-</style> */
-}

@@ -949,20 +949,21 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@builder.io/qwik-city@0.0.128":
-  version "0.0.128"
-  resolved "https://nexus.internal.stuart.com/repository/npm-group/@builder.io/qwik-city/-/qwik-city-0.0.128.tgz#66f8e375d3e1213242a2d1c0e7f2f72ca1f78202"
-  integrity sha512-IgE2nZuoyRGRpsQ9HwbWV8IaaP9rWZGgi1hSzXJLCW2GrVfB49aNph3lQYDeoBOdvUSIucfGbUXFLn7215JOFA==
+"@builder.io/qwik-city@0.5.2":
+  version "0.5.2"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/@builder.io/qwik-city/-/qwik-city-0.5.2.tgz#016d75c5ef5c47a10d3a0008eb1c576c114af769"
+  integrity sha512-ItpQw+A4nK7Uh+Ypdx+LGqPlOzoIGWg9VgnqWCKpAfJaLnD4ffvSPrgHKQx/DdsDFFl7nBMMq4ddUQSL7xp0Yw==
   dependencies:
-    "@mdx-js/mdx" "2.1.5"
+    "@mdx-js/mdx" "2.3.0"
     "@types/mdx" "2.0.3"
     source-map "0.7.4"
-    vfile "5.3.6"
+    vfile "5.3.7"
+    zod "^3.20.6"
 
-"@builder.io/qwik@0.16.2":
-  version "0.16.2"
-  resolved "https://nexus.internal.stuart.com/repository/npm-group/@builder.io/qwik/-/qwik-0.16.2.tgz#e29d2c001043ed40260eae309948c8d91bae091c"
-  integrity sha512-yq+WXx54PVDJkTse7C7zYcTVIn2g5qHD2buH/iy7nux+fVLd2Qpui7UK1nuioK2Kpf75JfEAH9ZSWIHQl32FKQ==
+"@builder.io/qwik@0.20.1":
+  version "0.20.1"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/@builder.io/qwik/-/qwik-0.20.1.tgz#3cf6ee5d1a7cdf46ad8cda347affd2b77a46be75"
+  integrity sha512-GPhErG9+AaWXYKnDVQI3iAd2YNYNRBDvTS3BRx2yGbIB59t4OmnPB0vIcwJ5QtVTqNjF43NHSjhCMJYo543oLQ==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -1730,10 +1731,10 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@mdx-js/mdx@2.1.5":
-  version "2.1.5"
-  resolved "https://nexus.internal.stuart.com/repository/npm-group/@mdx-js/mdx/-/mdx-2.1.5.tgz#577937349fd555154382c2f805f5f52834a64903"
-  integrity sha512-zEG0lt+Bl/r5U6e0TOS7qDbsXICtemfAPquxWFsMbdzrvlWaqMGemLl+sjVpqlyaaiCiGVQBSGdCk0t1qXjkQg==
+"@mdx-js/mdx@2.3.0":
+  version "2.3.0"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/@mdx-js/mdx/-/mdx-2.3.0.tgz#d65d8c3c28f3f46bb0e7cb3bf7613b39980671a9"
+  integrity sha512-jLuwRlz8DQfQNiUCJR50Y09CGPq3fLtmtUQfVrj79E0JWu3dvsVcxVIcfhR5h0iXu+/z++zDrYeiJqifRynJkA==
   dependencies:
     "@types/estree-jsx" "^1.0.0"
     "@types/mdx" "^2.0.0"
@@ -2984,15 +2985,31 @@ color-name@1.1.3:
   resolved "https://nexus.internal.stuart.com/repository/npm-group/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
   integrity sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==
 
-color-name@^1.1.4, color-name@~1.1.4:
+color-name@^1.0.0, color-name@^1.1.4, color-name@~1.1.4:
   version "1.1.4"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
+
+color-string@^1.9.0:
+  version "1.9.1"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/color-string/-/color-string-1.9.1.tgz#4467f9146f036f855b764dfb5bf8582bf342c7a4"
+  integrity sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==
+  dependencies:
+    color-name "^1.0.0"
+    simple-swizzle "^0.2.2"
 
 color-support@^1.1.2:
   version "1.1.3"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
+
+color@^4.2:
+  version "4.2.3"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/color/-/color-4.2.3.tgz#d781ecb5e57224ee43ea9627560107c0e0c6463a"
+  integrity sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==
+  dependencies:
+    color-convert "^2.0.1"
+    color-string "^1.9.0"
 
 combined-stream@^1.0.8:
   version "1.0.8"
@@ -3084,6 +3101,14 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+css-selector-tokenizer@^0.8.0:
+  version "0.8.0"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/css-selector-tokenizer/-/css-selector-tokenizer-0.8.0.tgz#88267ef6238e64f2215ea2764b3e2cf498b845dd"
+  integrity sha512-Jd6Ig3/pe62/qe5SBPTN8h8LeUg/pT4lLgtavPf7updwwHpvFzxvOQBHYj2LZDMjUnBzgvIUSjRcf6oT5HzHFg==
+  dependencies:
+    cssesc "^3.0.0"
+    fastparse "^1.1.2"
+
 css-what@^5.0.1:
   version "5.1.0"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/css-what/-/css-what-5.1.0.tgz#3f7b707aadf633baf62c2ceb8579b545bb40f7fe"
@@ -3098,6 +3123,16 @@ csstype@^3.0.2, csstype@^3.0.7:
   version "3.1.1"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
+
+daisyui@^2.51.4:
+  version "2.51.4"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/daisyui/-/daisyui-2.51.4.tgz#dd4f70aeb603af9dfe42d1a1e2a8456fc57c5110"
+  integrity sha512-TGYD2BQCduxkKbDALlaWWaUdi33tryUuO/MxxBtAmLJ9zKn04gF6xduMxbrAUesR4AFr6LZW187TqF2H5c1AoA==
+  dependencies:
+    color "^4.2"
+    css-selector-tokenizer "^0.8.0"
+    postcss-js "^4.0.0"
+    tailwindcss "^3"
 
 data-uri-to-buffer@3:
   version "3.0.1"
@@ -3859,6 +3894,11 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   resolved "https://nexus.internal.stuart.com/repository/npm-group/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
 
+fastparse@^1.1.2:
+  version "1.1.2"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/fastparse/-/fastparse-1.1.2.tgz#91728c5a5942eced8531283c79441ee4122c35a9"
+  integrity sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ==
+
 fastq@^1.6.0:
   version "1.15.0"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/fastq/-/fastq-1.15.0.tgz#d04d07c6a2a68fe4599fea8d2e103a937fae6b3a"
@@ -4508,6 +4548,11 @@ is-alphanumerical@^2.0.0:
   dependencies:
     is-alphabetical "^2.0.0"
     is-decimal "^2.0.0"
+
+is-arrayish@^0.3.1:
+  version "0.3.2"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
+  integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
 
 is-binary-path@~2.1.0:
   version "2.1.0"
@@ -6587,6 +6632,13 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://nexus.internal.stuart.com/repository/npm-group/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
+simple-swizzle@^0.2.2:
+  version "0.2.2"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
+  integrity sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==
+  dependencies:
+    is-arrayish "^0.3.1"
+
 slash@^3.0.0:
   version "3.0.0"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
@@ -6779,7 +6831,7 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://nexus.internal.stuart.com/repository/npm-group/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-tailwindcss@^3.1.8:
+tailwindcss@^3, tailwindcss@^3.1.8:
   version "3.2.7"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/tailwindcss/-/tailwindcss-3.2.7.tgz#5936dd08c250b05180f0944500c01dce19188c07"
   integrity sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==
@@ -7248,17 +7300,7 @@ vfile-message@^3.0.0:
     "@types/unist" "^2.0.0"
     unist-util-stringify-position "^3.0.0"
 
-vfile@5.3.6:
-  version "5.3.6"
-  resolved "https://nexus.internal.stuart.com/repository/npm-group/vfile/-/vfile-5.3.6.tgz#61b2e70690cc835a5d0d0fd135beae74e5a39546"
-  integrity sha512-ADBsmerdGBs2WYckrLBEmuETSPyTD4TuLxTrw0DvjirxW1ra4ZwkbzG8ndsv3Q57smvHxo677MHaQrY9yxH8cA==
-  dependencies:
-    "@types/unist" "^2.0.0"
-    is-buffer "^2.0.0"
-    unist-util-stringify-position "^3.0.0"
-    vfile-message "^3.0.0"
-
-vfile@^5.0.0:
+vfile@5.3.7, vfile@^5.0.0:
   version "5.3.7"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/vfile/-/vfile-5.3.7.tgz#de0677e6683e3380fafc46544cfe603118826ab7"
   integrity sha512-r7qlzkgErKjobAmyNIkkSpizsFPYiUPuJb5pNW1RB4JcYVZhs4lIbVqk8XPk033CV/1z8ss5pkax8SuhGpcG8g==
@@ -7471,6 +7513,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://nexus.internal.stuart.com/repository/npm-group/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zod@^3.20.6:
+  version "3.21.2"
+  resolved "https://nexus.internal.stuart.com/repository/npm-group/zod/-/zod-3.21.2.tgz#a25425916d63b74d5ddd0b2a1bf733ecc093964b"
+  integrity sha512-0Ygy2/IZNIxHterZdHjE5Vb8hp1fUHJD/BGvSHj8QJx+UipEVNvo9WLchoyBpz5JIaN6KmdGDGYdloGzpFK98g==
 
 zwitch@^2.0.0:
   version "2.0.4"

@@ -1,34 +1,44 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import WeekPlan from "~/components/WeekPlan/WeekPlan";
-// import { loader$ } from '@builder.io/qwik-city';
+import { useUser } from "~/lib/user/user";
+import Login from "~/components/login/Login";
+import getFirebase from "~/lib/firebase/getFirebase";
+import WeekPlanPage from "~/components/WeekPlanPage/WeekPlanPage";
 
-// export const getProductData = loader$(() => {
-//   return {
-//     product: {
-//       name: 'Qwik City',
-//       price: 100,
-//     },
-//   };
-// });
+export const onRequest = async () => {
+  getFirebase();
+};
 
 export default component$(() => {
-  const weekId = 1;
+  const userStore = useUser();
+  const weekId = "2022-05-30";
+
+  useTask$(({track}) => {
+    track(() => userStore.loading)
+    if (!userStore.loading && !userStore.user) {
+      console.log('🛎 ', 'not logged');
+      window.location.href = '/login'
+    }
+  })
+
   return (
     <>
-      <div>Homepage</div>
-      <a href="/week">Week</a>
-      <WeekPlan weekId={weekId}/>
+      <WeekPlanPage weekId={weekId} />
+      {/* {loading ? <Loading /> : user ? <WeekPlan weekId={weekId} /> : <Login />} */}
     </>
   );
 });
 
+export const Loading = () => {
+  return <p>Loading...</p>;
+};
+
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Que comemos?",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content: "Algo rico?",
     },
   ],
 };

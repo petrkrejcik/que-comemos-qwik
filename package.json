@@ -22,8 +22,8 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "0.16.2",
-    "@builder.io/qwik-city": "0.0.128",
+    "@builder.io/qwik": "0.20.1",
+    "@builder.io/qwik-city": "0.5.2",
     "@types/eslint": "8.4.10",
     "@types/node": "^18.11.18",
     "@types/node-fetch": "latest",
@@ -43,6 +43,7 @@
     "vite-tsconfig-paths": "3.5.0"
   },
   "dependencies": {
+    "daisyui": "^2.51.4",
     "firebase": "^9.17.2"
   }
 }

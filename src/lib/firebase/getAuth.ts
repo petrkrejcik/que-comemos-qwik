@@ -1,7 +1,8 @@
 import { getApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 
-const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
+const disableFirebaseEmulators = true
+// const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
 
 export default () => {
 	const auth = getAuth(getApp());
