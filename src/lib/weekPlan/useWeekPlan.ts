@@ -1,19 +1,6 @@
-import { useBrowserVisibleTask$, useStore } from "@builder.io/qwik";
+import { useVisibleTask$, useStore, useSignal, useTask$ } from "@builder.io/qwik";
 import { onSnapshot } from "firebase/firestore";
-import {
-  addDoc,
-  collection,
-  CollectionReference,
-  deleteDoc,
-  doc,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-  where,
-  DocumentReference,
-  DocumentData
-} from "firebase/firestore";
+import { doc, DocumentReference } from "firebase/firestore";
 import getFirestore from "~/lib/firebase/getFirestore";
 
 interface Day {
@@ -36,15 +23,18 @@ export interface WeekPlan {
 }
 
 export function useWeekPlan(groupId: string, weekId: string) {
-  const _store = useStore<{ weekPlans: Record<string, WeekPlan>; loading: boolean }>({ weekPlans: {}, loading: true });
-  
-  useBrowserVisibleTask$(() => {
-    _store.loading = true;
+  const weekSignal = useSignal(weekId)
+  const store = useStore<{ weekPlans: Record<string, WeekPlan>; loading: boolean }>({ weekPlans: {}, loading: true });
+
+  useTask$(({ track }) => {
+    track(() => weekSignal.value);
+    store.loading = true;
+    console.log("🛎 ", "change");
     const unsubscribe = onSnapshot<WeekPlan>(
       doc(getFirestore(), `groups/${groupId}/weekPlans`, weekId) as DocumentReference<WeekPlan>,
       (q) => {
         // toggle loading
-        _store.loading = false;
+        store.loading = false;
 
         // if no data
         if (!q.exists) {
@@ -61,11 +51,14 @@ export function useWeekPlan(groupId: string, weekId: string) {
          */
 
         // add to store
-        _store.weekPlans[weekPlan.id] = weekPlan;
+        store.weekPlans[weekPlan.id] = weekPlan;
+      },
+      (error) => {
+        console.log('🛎 ', 'eeeee', error);
       }
     );
     return unsubscribe;
   });
 
-  return _store;
+  return store;
 }

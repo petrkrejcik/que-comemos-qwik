@@ -1,13 +1,33 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useVisibleTask$ } from "@builder.io/qwik";
+import { Link } from "@builder.io/qwik-city";
+import { decrementWeek, toWeekId, fromWeekId, incrementWeek } from "~/lib/date/date";
 
-export default component$(() => {
+type Props = {
+  weekId: string;
+};
+
+export default component$((props: Props) => {
+  // The hook is needed in order to re-render page when props.weekId changes.
+  // I don't understand why it's needed. IMHO the component should be re-rendered when props change.
+  useVisibleTask$(()=>{
+    const a = props.weekId
+  })
+
   return (
     <div class="flex items-center gap-2">
-		<button class="btn btn-circle btn-ghost text-xl">❮</button>
-		<div class="text-lg grow">
-			Esta semana
-		</div>
-		<button class="btn  btn-circle btn-ghost text-xl">❯</button>
-	</div>
+      <Link
+        href={`/week/${toWeekId(decrementWeek(fromWeekId(props.weekId)))}`}
+        class="btn btn-circle btn-ghost text-xl"
+      >
+        ❮
+      </Link>
+      <div class="text-lg grow">{props.weekId}</div>
+      <Link
+        href={`/week/${toWeekId(incrementWeek(fromWeekId(props.weekId)))}`}
+        class="btn btn-circle btn-ghost text-xl"
+      >
+        ❯
+      </Link>
+    </div>
   );
 });

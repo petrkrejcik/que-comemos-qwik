@@ -1,7 +1,6 @@
-import { useBrowserVisibleTask$, useStore } from '@builder.io/qwik';
+import { useVisibleTask$, useStore } from '@builder.io/qwik';
 import { onIdTokenChanged, User } from 'firebase/auth';
-import getAuth from '~/lib/firebase/getAuth';
-import getFirebase from '~/lib/firebase/getFirebase';
+import auth from '~/lib/firebase/auth';
 
 export interface userData {
     photoURL: string | null;
@@ -11,18 +10,17 @@ export interface userData {
 };
 
 export function useUser() {
-    const _store = useStore<{ loading: boolean, user: userData | null }>({ loading: true, user: null });
+    const store = useStore<{ loading: boolean, user: userData | null }>({ loading: true, user: null });
     
-    useBrowserVisibleTask$(() => {
-        getFirebase() // TODO: remove
+    useVisibleTask$(() => {
         // toggle loading
-        _store.loading = true;
+        store.loading = true;
 
         // subscribe to user changes
-        const unsubscribe = onIdTokenChanged(getAuth(), (_user: User | null) => {
-            _store.loading = false;
+        const unsubscribe = onIdTokenChanged(auth, (_user: User | null) => {
+            store.loading = false;
             if (!_user) {
-                _store.user = null;
+                store.user = null;
                 return;
             }
 
@@ -31,10 +29,10 @@ export function useUser() {
             const data = { photoURL, uid, displayName, email };
 
             // set store
-            _store.user = data;
+            store.user = data;
         });
         return unsubscribe;
     });
 
-    return _store;
+    return store;
 };

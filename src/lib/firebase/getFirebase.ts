@@ -1,4 +1,4 @@
-import { getApp, initializeApp, type FirebaseOptions } from 'firebase/app';
+import { initializeApp, type FirebaseOptions } from 'firebase/app';
 
 const config: FirebaseOptions = {
 	apiKey: 'AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU',
@@ -10,10 +10,4 @@ const config: FirebaseOptions = {
 	appId: '1:545019553365:web:333935cb9e69e47e4196dc'
 };
 
-export default () => {
-	try {
-		return getApp();
-	} catch (e) {
-		return initializeApp(config);
-	}
-};
+export default initializeApp(config)

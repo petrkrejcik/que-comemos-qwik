@@ -1,37 +1,39 @@
-import { component$, useTask$ } from "@builder.io/qwik";
+import { component$, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { useUser } from "~/lib/user/user";
-import Login from "~/components/login/Login";
-import getFirebase from "~/lib/firebase/getFirebase";
+import { routeLoader$ } from "@builder.io/qwik-city";
 import WeekPlanPage from "~/components/WeekPlanPage/WeekPlanPage";
+import { toWeekId, getWeek } from "~/lib/date/date";
+import validateUser from "~/lib/user/validateUser";
+import getWeekPlan from "~/lib/weekPlan/getWeekPlan.server";
 
-export const onRequest = async () => {
-  getFirebase();
-};
-
-export default component$(() => {
-  const userStore = useUser();
-  const weekId = "2022-05-30";
-
-  useTask$(({track}) => {
-    track(() => userStore.loading)
-    if (!userStore.loading && !userStore.user) {
-      console.log('🛎 ', 'not logged');
-      window.location.href = '/login'
-    }
-  })
-
-  return (
-    <>
-      <WeekPlanPage weekId={weekId} />
-      {/* {loading ? <Loading /> : user ? <WeekPlan weekId={weekId} /> : <Login />} */}
-    </>
-  );
+export const useServerWeekPlan = routeLoader$(async (request) => {
+  try {
+    const user = await validateUser(request)
+    const weekId = toWeekId(getWeek());
+    return getWeekPlan(weekId, user.groupId)
+  } catch (e) {
+    console.log("🛎 ", "errrrrr", e);
+    return {};
+  }
 });
 
-export const Loading = () => {
-  return <p>Loading...</p>;
-};
+export default component$(() => {
+  const weekId = toWeekId(getWeek());
+  const weekPlan = useServerWeekPlan().value;
+  console.log("🛎 ", "weekPlan", weekPlan);
+
+  // useVisibleTask$(async () => {
+  //   await fetch("/api/session", {
+  //     body: JSON.stringify({ idToken: "aaa" }),
+  //     method: "POST",
+  //     headers: {
+  //       'content-type': "application/json",
+  //     },
+  //   });
+  // });
+
+  return <WeekPlanPage weekId={weekId} />;
+});
 
 export const head: DocumentHead = {
   title: "Que comemos?",
