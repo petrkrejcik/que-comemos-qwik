@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import Header from "../Header/Header";
+import Header from "~/components/header/Header";
 import Layout from "~/components/Layout/Layout";
 import WeekPlan from "~/components/WeekPlan/WeekPlan";
 import WeekSelect from "~/components/WeekSelect/WeekSelect";
