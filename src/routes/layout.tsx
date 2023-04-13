@@ -1,15 +1,15 @@
 import { component$, Slot } from "@builder.io/qwik";
-import Protected from "~/components/Protected";
-import "~/lib/firebase/getFirebase";
-import dayjs from "dayjs";
-import 'dayjs/locale/es.js';
+// import Protected from "~/components/Protected";
+// import "~/lib/firebase/getFirebase";
+// import dayjs from "dayjs";
+// import 'dayjs/locale/es.js';
 
-dayjs.locale('es');
+// dayjs.locale('es');
 
 export default component$(() => {
   return (
-    <Protected>
+    // <Protected>
       <Slot />
-    </Protected>
+    // </Protected>
   );
 });

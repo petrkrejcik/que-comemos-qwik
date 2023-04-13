@@ -1,3 +1,8 @@
+## Schema
+- Login on the web via Firebase (Google provider)
+- Call `/initSession` EP with `idToken`
+- Create `customToken`
+
 # Qwik City App ⚡️
 
 - [Qwik Docs](https://qwik.builder.io/)

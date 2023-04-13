@@ -1,12 +1,12 @@
 import {  GoogleAuthProvider, connectAuthEmulator, signInWithPopup } from "firebase/auth";
-import {Auth, getAuth} from 'firebase-admin/auth'
-import admin from "~/lib/firebase/getFirebaseAdmin.server";
+import {getAuth} from 'firebase-admin/auth'
+import admin from "./_getFirebaseAdmin.server";
 
-const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
+const disableFirebaseEmulators = !!process.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
 let emulatorsInitialised = false;
 
 const initialiseEmulators = (auth: any) => {
-  if (import.meta.env.DEV) {
+  if (process.env.DEV) {
     if (!emulatorsInitialised) {
       console.info("Initialising Firebase Auth emulator");
 
