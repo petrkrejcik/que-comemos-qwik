@@ -1,6 +1,6 @@
 import {  GoogleAuthProvider, connectAuthEmulator, signInWithPopup } from "firebase/auth";
 import {getAuth} from 'firebase-admin/auth'
-import admin from "./_getFirebaseAdmin.server";
+import admin from "./_getFirebaseAdmin";
 
 const disableFirebaseEmulators = !!process.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
 let emulatorsInitialised = false;

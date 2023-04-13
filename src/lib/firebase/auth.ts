@@ -27,17 +27,7 @@ export const login = async () => {
     if (!userCredential) {
       throw new Error("Login failed");
     }
-    userCredential.user.getIdToken().then(async (idToken) => {
-      const response = await fetch("/api/session", {
-        body: JSON.stringify({ idToken }),
-        method: "POST",
-        headers: {
-          'content-type': "application/json",
-        },
-      });
-      const result = await response.json();
-      console.log('🛎 ', 'result', result);
-    })
+    
     // window.location.href = "/";
   } catch (e) {
     console.error(e);

@@ -4,11 +4,11 @@ export const getFirebaseAdmin = () => {
 	try {
 		return getApp('admin');
 	} catch (e) {
-		const serviceAccount = JSON.parse(import.meta.env.VITE_FIREBASE_SERVICE_ACCOUNT_KEY as string);
+		const serviceAccount = JSON.parse(process.env.VITE_FIREBASE_SERVICE_ACCOUNT_KEY as string);
 
 		// Init emulators for firebase-admin
 		// https://github.com/firebase/firebase-admin-node/issues/776#issuecomment-751685424
-		const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean
+		const disableFirebaseEmulators = !!process.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean
 		if (!disableFirebaseEmulators) {
 			console.log('🛎 ', 'emul');
 			process.env['FIRESTORE_EMULATOR_HOST'] = 'localhost:8080';

@@ -1,8 +1,18 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+// import admin from "./_getFirebaseAdmin";
+import { serialize } from "cookie";
 
 export default function handler(request: VercelRequest, response: VercelResponse) {
-  console.log("🛎 ", "session create");
-  response.status(200).json({ status: "success" });
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 10);
+  const cookie = serialize("ck", "value", {
+    httpOnly: true,
+    path: "/",
+    expires,
+    secure: true,
+  });
+  response.status(200).setHeader("Set-Cookie", [cookie]).json({ query: request.query.token });
+  // admin
   // const serviceAccount = JSON.parse(import.meta.env.VITE_FIREBASE_SERVICE_ACCOUNT_KEY as string);
   // const body = (await request.parseBody()) as { idToken?: string };
   // const idToken = body.idToken;
