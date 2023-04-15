@@ -47,9 +47,12 @@
     "vite-tsconfig-paths": "4.0.7"
   },
   "dependencies": {
+    "@marplex/flarebase-auth": "^1.2.0",
+    "@sagi.io/workers-jwt": "^0.0.23",
     "cookie": "^0.5.0",
     "daisyui": "^2.51.5",
     "dayjs": "^1.11.7",
-    "firebase": "^9.19.1"
+    "firebase": "^9.19.1",
+    "nanoid": "^4.0.2"
   }
 }

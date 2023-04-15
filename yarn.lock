@@ -1912,6 +1912,13 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
+"@marplex/flarebase-auth@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@marplex/flarebase-auth/-/flarebase-auth-1.2.0.tgz#7f92ecb00283452076f4ca2fad65faeaa837b74f"
+  integrity sha512-lv+yq5UQ7O3SEXCzunUKFNYPETVwdx6q5Os5/bFq7AbYFxiAF637rbuqNaJE3BRvKkxjaHBP27FwlqZa7U/UIg==
+  dependencies:
+    jose "^4.8.1"
+
 "@mdx-js/mdx@2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-2.3.0.tgz#d65d8c3c28f3f46bb0e7cb3bf7613b39980671a9"
@@ -2126,6 +2133,19 @@
   dependencies:
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
+
+"@sagi.io/globalthis@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@sagi.io/globalthis/-/globalthis-0.0.2.tgz#2777ab71721ecaab1b0dd8aa75abbe0f3ae1ba58"
+  integrity sha512-sazB1BcX8IK5UxDgEEd0J1bPB0rwH0k725nYva6ofBhvNX8lMytuRf3mlkTkytNHKTi4EGxBOY+YAD3PkeEtlA==
+
+"@sagi.io/workers-jwt@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@sagi.io/workers-jwt/-/workers-jwt-0.0.23.tgz#172857aa0edb04940504b3bcfa27fc4c03630896"
+  integrity sha512-aQIACRw98vGkjzdfms6zZxCXShjbSi99a9tzPY0LrVmkCulxrTEIT0qAgHp3qpgD/rCDlSVc7uH011GRKypTGQ==
+  dependencies:
+    "@sagi.io/globalthis" "^0.0.2"
+    js-base64 "^3.6.0"
 
 "@sinclair/typebox@0.25.24":
   version "0.25.24"
@@ -5464,6 +5484,16 @@ jose@^4.10.4:
   resolved "https://registry.yarnpkg.com/jose/-/jose-4.13.1.tgz#449111bb5ab171db85c03f1bd2cb1647ca06db1c"
   integrity sha512-MSJQC5vXco5Br38mzaQKiq9mwt7lwj2eXpgpRyQYNHYt2lq1PjkWa7DLXX0WVcQLE9HhMh3jPiufS7fhJf+CLQ==
 
+jose@^4.8.1:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.14.0.tgz#c8c03579a0ba3598194c92ccca777d96adca8f48"
+  integrity sha512-LSA/XenLPwqk6e2L+PSUNuuY9G4NGsvjRWz6sJcUBmzTLEPJqQh46FHSUxnAQ64AWOkRO6bSXpy3yXuEKZkbIA==
+
+js-base64@^3.6.0:
+  version "3.7.5"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.7.5.tgz#21e24cf6b886f76d6f5f165bfcd69cc55b9e3fca"
+  integrity sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==
+
 js-sdsl@^4.1.4:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/js-sdsl/-/js-sdsl-4.4.0.tgz#8b437dbe642daa95760400b602378ed8ffea8430"
@@ -6528,6 +6558,11 @@ nanoid@^3.3.4:
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
   integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
+
+nanoid@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
+  integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
 
 natural-compare-lite@^1.4.0:
   version "1.4.0"
