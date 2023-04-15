@@ -1,3 +1,4 @@
+// @ts-ignore
 import { getTokenFromGCPServiceAccount } from "@sagi.io/workers-jwt";
 import getConfig from "~/lib/firebase/getConfig";
 // import { FlarebaseAuth } from 'flarebase-auth';
