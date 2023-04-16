@@ -1,11 +1,19 @@
 import { component$, useVisibleTask$ } from "@builder.io/qwik";
 import { useWeekPlan } from "~/lib/weekPlan/useWeekPlan";
+import { useServerWeekPlan } from "~/routes/layout";
 
 type Props = {
   weekId: string;
 };
 
 export default component$((props: Props) => {
+  let weekPlan;
+  try {
+    weekPlan = useServerWeekPlan().value;
+  } catch {
+    weekPlan = {};
+  }
+
   // useVisibleTask$(({ track }) => {
   //   track(() => props.weekId);
   //   console.log('🛎 ', 'zmena');
@@ -13,10 +21,9 @@ export default component$((props: Props) => {
   // const { loading, weekPlans } = useWeekPlan("mojeI6fi9GdeWywMEn9Yr", props.weekId);
   // const weekPlan = weekPlans[props.weekId] || {};
 
-  // const days = Array.from({ length: 7 }, (_, i) => weekPlan[`d${i as 0 | 1 | 2 | 3 | 4 | 5 | 6}`]);
-  const loading = false
-  console.log('🛎 ', 'componenta');
-  const days: Record<string, Record<string, string>>[] = []
+  const days = Array.from({ length: 7 }, (_, i) => weekPlan[`d${i as 0 | 1 | 2 | 3 | 4 | 5 | 6}`]);
+  const loading = false;
+  // const days: Record<string, Record<string, string>>[] = []
 
   return (
     <>
