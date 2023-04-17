@@ -1,5 +1,5 @@
 import { component$, useVisibleTask$ } from "@builder.io/qwik";
-import { useWeekPlan } from "~/lib/weekPlan/useWeekPlan";
+import type { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 import { useServerWeekPlan } from "~/routes/layout";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default component$((props: Props) => {
-  let weekPlan;
+  let weekPlan: WeekPlan;
   try {
     weekPlan = useServerWeekPlan().value;
   } catch {

@@ -1,13 +1,6 @@
 import generateToken from "~/lib/firebase/generateToken";
 import getConfig from "~/lib/firebase/getConfig";
 
-interface FirestoreDoc {
-  fields: {
-    [key: string]: {
-      [key: string]: any;
-    };
-  };
-}
 interface FirestoreDocument {
   fields: {
     [key: string]: FirestoreFieldValue;
@@ -33,10 +26,10 @@ const convertFirestoreDocToObject = (doc: FirestoreDocument): ConvertedObject =>
     return result;
   }
   Object.entries(doc.fields).forEach(([key, value]) => {
-    if (value.mapValue) {
+    if ('mapValue' in value) {
       result[key] = convertFirestoreDocToObject(value.mapValue);
     } else {
-      const valueType = Object.keys(value)[0];
+      const valueType = Object.keys(value)[0] as keyof FirestoreFieldValue;
       result[key] = value[valueType];
     }
   });
