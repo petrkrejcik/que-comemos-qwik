@@ -1,8 +1,7 @@
 import { connectAuthEmulator, getAuth, GoogleAuthProvider, signInWithPopup, type Auth } from "firebase/auth";
 import firebase from "~/lib/firebase/getFirebase";
 
-// const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
-const disableFirebaseEmulators = true
+const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
 let emulatorsInitialised = false;
 
 const initialiseEmulators = (auth: Auth) => {

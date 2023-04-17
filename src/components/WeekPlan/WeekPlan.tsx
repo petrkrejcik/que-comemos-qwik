@@ -13,6 +13,7 @@ export default component$((props: Props) => {
   } catch {
     weekPlan = {};
   }
+  console.log('🛎 ', 'weekPlan', weekPlan);
 
   // useVisibleTask$(({ track }) => {
   //   track(() => props.weekId);

@@ -18,19 +18,18 @@ export function useUser() {
         store.loading = true;
 
         // subscribe to user changes
-        const unsubscribe = onIdTokenChanged(auth, (_user: User | null) => {
-            console.log('🛎 ', 'user change', _user);
+        const unsubscribe = onIdTokenChanged(auth, (user: User | null) => {
             store.loading = false;
-            if (!_user) {
+            if (!user) {
                 store.user = null;
                 return;
             }
             
             // map data to user data type
-            const { photoURL, uid, displayName, email } = _user;
+            const { photoURL, uid, displayName, email } = user;
             const data = { photoURL, uid, displayName, email };
             
-            refreshCustomToken(_user)
+            refreshCustomToken(user)
 
             // set store
             store.user = data;

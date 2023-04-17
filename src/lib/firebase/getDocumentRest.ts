@@ -26,7 +26,7 @@ const convertFirestoreDocToObject = (doc: FirestoreDocument): ConvertedObject =>
     return result;
   }
   Object.entries(doc.fields).forEach(([key, value]) => {
-    if ('mapValue' in value) {
+    if ("mapValue" in value) {
       result[key] = convertFirestoreDocToObject(value.mapValue);
     } else {
       const valueType = Object.keys(value)[0] as keyof FirestoreFieldValue;
@@ -36,23 +36,37 @@ const convertFirestoreDocToObject = (doc: FirestoreDocument): ConvertedObject =>
   return result;
 };
 
+const getHost = () => {
+  if (import.meta.env.DEV && !import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS) {
+    return "http://127.0.0.1:8080";
+  } else {
+    return "https://firestore.googleapis.com";
+  }
+};
+
 export default async (documentPath: string): Promise<ConvertedObject> => {
   const { projectId } = getConfig();
-  const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${documentPath}`;
+  const url = `${getHost()}/v1/projects/${projectId}/databases/(default)/documents/${documentPath}`;
   const token = await generateToken();
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch Firestore document. Status code: ${response.status}`);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Firestore document. Status code: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const result = convertFirestoreDocToObject(data);
+
+    return result;
+  } catch (e) {
+    console.error('Error when fetching Firestore document', e);
+    throw e;
   }
-
-  const data = await response.json();
-
-  const result = convertFirestoreDocToObject(data);
-
-  return result;
 };

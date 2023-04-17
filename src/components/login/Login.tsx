@@ -4,16 +4,18 @@ import { login } from "~/lib/firebase/auth";
 
 export default component$(() => {
   return (
-    <button onClick$={() => login()}>Login using Google</button>
+    <button class="btn btn-primary" onClick$={() => login()}>
+      Login using Google
+    </button>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Login",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content: "Login to start using the app",
     },
   ],
 };
