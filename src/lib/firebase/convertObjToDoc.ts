@@ -1,5 +1,5 @@
 export default function convertDocToFirestoreDoc(doc: any) {
-  const result = {
+  const result: any = {
     fields: {},
   };
   Object.entries(doc).forEach(([key, value]) => {

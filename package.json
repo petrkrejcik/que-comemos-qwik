@@ -18,6 +18,7 @@
     "emulators:export": "firebase emulators:export ./firestore-emulators",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
+    "ts": "yarn tsc --incremental --noEmit --pretty",
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "DEV=true qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
