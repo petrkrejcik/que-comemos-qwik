@@ -1,7 +1,8 @@
-import getDocumentRest from "~/lib/firebase/getDocumentRest";
+import { getDocument } from "~/lib/firebase/rest";
+import { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 
 export default async (weekId: string, groupId: string) => {
-  const doc = await getDocumentRest(`groups/${groupId}/weekPlans/${weekId}`);
+  const doc = await getDocument<WeekPlan>(`groups/${groupId}/weekPlans/${weekId}`);
 
   return doc;
 };

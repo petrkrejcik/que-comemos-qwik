@@ -1,5 +1,5 @@
-import { component$, useVisibleTask$ } from "@builder.io/qwik";
-import type { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
+import { component$ } from "@builder.io/qwik";
+import { Link, useLocation } from "@builder.io/qwik-city";
 import { useServerWeekPlan } from "~/routes/layout";
 
 type Props = {
@@ -7,24 +7,11 @@ type Props = {
 };
 
 export default component$((props: Props) => {
-  let weekPlan: WeekPlan;
-  try {
-    weekPlan = useServerWeekPlan().value;
-  } catch {
-    weekPlan = {};
-  }
-  console.log('🛎 ', 'weekPlan', weekPlan);
-
-  // useVisibleTask$(({ track }) => {
-  //   track(() => props.weekId);
-  //   console.log('🛎 ', 'zmena');
-  // });
-  // const { loading, weekPlans } = useWeekPlan("mojeI6fi9GdeWywMEn9Yr", props.weekId);
-  // const weekPlan = weekPlans[props.weekId] || {};
+  const weekPlan = useServerWeekPlan().value;
+  const location = useLocation()
+  const loading = location.isNavigating;
 
   const days = Array.from({ length: 7 }, (_, i) => weekPlan[`d${i as 0 | 1 | 2 | 3 | 4 | 5 | 6}`]);
-  const loading = false;
-  // const days: Record<string, Record<string, string>>[] = []
 
   return (
     <>
@@ -38,13 +25,15 @@ export default component$((props: Props) => {
             </div>
             <div class="w-full flex items-center h-12">
               {loading ? (
-                <div class="w-44 h-6 bg-base-200 dark:bg-base-100 rounded animate-pulse" />
+                <div class="w-44 h-6 bg-base-200 rounded animate-pulse" />
               ) : day?.lunch ? (
                 <a class="link link-hover " href={`/`}>
                   {day.lunch.name}
                 </a>
               ) : (
-                "nemam"
+                <Link href={`/week/${props.weekId}/lunch/${i}`} class="btn btn-ghost">
+                  Elegir
+                </Link>
               )}
             </div>
           </div>

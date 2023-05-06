@@ -1,9 +1,12 @@
+export interface Meal {
+  id: string;
+  name: string;
+  icon?: string;
+  eatFor?: string;
+}
+
 interface Day {
-  lunch: {
-    id: string;
-    name: string;
-    icon?: string;
-  };
+  lunch: Meal;
 }
 
 export interface WeekPlan {
