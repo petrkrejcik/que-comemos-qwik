@@ -1,9 +1,9 @@
 import type { PropFunction } from "@builder.io/qwik";
 import { component$, useSignal } from "@builder.io/qwik";
-import type { Meal } from "~/lib/weekPlan/weekPlanTypes";
+import type { PlannedMeal } from "~/lib/weekPlan/weekPlanTypes";
 
 export type Props = {
-  meals: Meal[];
+  meals: PlannedMeal[];
   isSaving: boolean;
   onSelect$: PropFunction<(mealId: string) => void>;
 };
@@ -34,7 +34,6 @@ export default component$<Props>((props) => {
         class={`btn btn-primary ${props.isSaving ? "loading" : ""}`}
         disabled={!selected.value}
         onClick$={() => {
-          console.log("🛎 ", "click");
           return props.onSelect$(selected.value);
         }}
       >

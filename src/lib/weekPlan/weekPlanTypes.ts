@@ -1,4 +1,4 @@
-export interface Meal {
+export interface PlannedMeal {
   id: string;
   name: string;
   icon?: string;
@@ -6,7 +6,7 @@ export interface Meal {
 }
 
 interface Day {
-  lunch: Meal;
+  lunch: PlannedMeal;
 }
 
 export interface WeekPlan {

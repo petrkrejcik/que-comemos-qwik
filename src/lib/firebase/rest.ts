@@ -2,8 +2,8 @@ import { DocumentReference } from "firebase/firestore";
 import generateToken from "~/lib/firebase/generateToken";
 import getConfig from "~/lib/firebase/getConfig";
 
-interface FirestoreDocument {
-  name: string;
+export interface FirestoreDocument {
+  name?: string;
   fields: {
     [key: string]: FirestoreFieldValue;
   };
@@ -55,7 +55,6 @@ const getHost = () => {
 export const fetchFirestore = async <T = FirestoreDocument>(path: string, options?: RequestInit): Promise<T> => {
   const { projectId } = getConfig();
   const url = `${getHost()}/v1/projects/${projectId}/databases/(default)/${path}`;
-  console.log("🛎 ", "url", url);
   const token = await generateToken();
 
   try {
@@ -90,15 +89,16 @@ export const getDocument = async <T = ConvertedObject>(documentPath: string): Pr
 export const getCollection = async <T = ConvertedObject>(documentPath: string): Promise<T[]> => {
   const data = await fetchFirestore<FirestoreCollection>(`documents/${documentPath}`);
   const result = data.documents.map((doc) => {
-    const id = doc.name.split("/").pop();
+    const id = doc.name?.split("/").pop();
     return convertFirestoreDocToObject<T>(doc, id);
   });
   return result;
 };
 
-// A REST API call to save a document to Firestore
+export const updateDocument = async (documentPath: string, document: object): Promise<void> => {
+  await fetchFirestore(`documents/${documentPath}`, { method: "PATCH", body: JSON.stringify(document) });
+};
 
-export const saveDocument = async (documentPath: string, document: object): Promise<void> => {
-  const data = await fetchFirestore(`documents/${documentPath}`, { method: "PATCH", body: JSON.stringify(document) });
-  console.log("🛎 ", "data", data);
+export const addDocument = async (documentPath: string, document: object): Promise<void> => {
+  await fetchFirestore(`documents/${documentPath}`, { method: "POST", body: JSON.stringify(document) });
 };

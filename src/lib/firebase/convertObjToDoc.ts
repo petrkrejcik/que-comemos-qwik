@@ -1,5 +1,7 @@
+import { FirestoreDocument } from "~/lib/firebase/rest";
+
 export default function convertDocToFirestoreDoc(doc: any) {
-  const result: any = {
+  const result: FirestoreDocument = {
     fields: {},
   };
   Object.entries(doc).forEach(([key, value]) => {
@@ -22,7 +24,7 @@ export default function convertDocToFirestoreDoc(doc: any) {
     // } else if (Array.isArray(value)) {
     //   result.fields[key] = {
     //     arrayValue: {
-    //       values: value.map((v) => convertDocToFirestoreDoc(v).fields['0']),
+    //       values: value.map((v) => convertDocToFirestoreDoc(v)),
     //     },
     //   };
     } else if (typeof value === "object") {

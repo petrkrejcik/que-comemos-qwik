@@ -1,28 +1,14 @@
 import { component$, useSignal } from "@builder.io/qwik";
-import type { RequestEvent } from "@builder.io/qwik-city";
-import { routeAction$ } from "@builder.io/qwik-city";
+import { Link } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import Layout from "~/components/Layout/Layout";
 import Meals from "~/components/Meals/Meals";
 import Header from "~/components/Head/Head";
 import validateUser from "~/lib/auth/validateUser";
 import getMeals from "~/lib/queries/getMeals";
-import type { Meal, WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
+import type { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 import selectMeal from "~/lib/queries/selectMeal";
 import { useServerWeekPlan } from "~/routes/layout";
-
-// export const useSelectMeal = routeAction$(async ({mealId}, request) => {
-//   const { groupId } = await validateUser(request);
-//   if (typeof mealId !== "string") {
-//     return {
-//       success: false,
-//     }
-//   }
-//   // await selectMeal(mealId, groupId);
-//   return {
-//     success: true,
-//   };
-// });
 
 export const useMeals = routeLoader$(async (request) => {
   try {
@@ -35,15 +21,6 @@ export const useMeals = routeLoader$(async (request) => {
   }
 });
 
-export const onRequest = ({ params, redirect }: RequestEvent) => {
-  // Verify it's 0 - 6
-  // const weekIdParam = params.weekId
-  // const weekId = toWeekId(getMonday(weekIdParam));
-  // if (weekId !== weekIdParam) {
-  //   throw redirect(302, `/week/${weekId}`);
-  // }
-};
-
 export default component$(() => {
   const { meals, groupId, weekId = "", day, meal = "" } = useMeals().value;
   const weekPlan = useServerWeekPlan(); // To be able to extend (update) the week plan
@@ -54,6 +31,9 @@ export default component$(() => {
       <Header q:slot="header">
         <span>aaa</span>
       </Header>
+      <Link q:slot="main" href="/add" class="btn btn-ghost">
+        Añadir comida nueva
+      </Link>
       <Meals
         q:slot="main"
         meals={meals}
@@ -71,6 +51,7 @@ export default component$(() => {
           };
           await selectMeal(groupId, weekId, newWeekPlan);
           isSaving.value = false;
+          window.history.back();
         }}
         isSaving={isSaving.value}
       />

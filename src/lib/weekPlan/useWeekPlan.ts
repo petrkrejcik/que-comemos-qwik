@@ -11,7 +11,6 @@ export function useWeekPlan(groupId: string, weekId: string) {
   useTask$(({ track }) => {
     track(() => weekSignal.value);
     store.loading = true;
-    console.log("🛎 ", "change");
     const unsubscribe = onSnapshot<WeekPlan>(
       doc(getFirestore(), `groups/${groupId}/weekPlans`, weekId) as DocumentReference<WeekPlan>,
       (q) => {

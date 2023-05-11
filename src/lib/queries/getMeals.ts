@@ -1,8 +1,8 @@
 import { getCollection, getDocument } from "~/lib/firebase/rest";
-import { Meal, WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
+import { PlannedMeal, WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 
 export default async (groupId: string) => {
-  const collection = await getCollection<Meal>(`groups/${groupId}/meals`);
+  const collection = await getCollection<PlannedMeal>(`groups/${groupId}/meals`);
 
   return collection;
 };

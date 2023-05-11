@@ -41,3 +41,4 @@ lerna-debug.log*
 .vercel
 .env
 test-results
+cypress/videos

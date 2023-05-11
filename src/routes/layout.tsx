@@ -9,9 +9,14 @@ import 'dayjs/locale/es.js';
 
 dayjs.locale('es');
 
+export const useGroupId = routeLoader$(async (request) => {
+  const { groupId } = await validateUser(request);
+  return groupId;
+});
+
 export const useServerWeekPlan = routeLoader$(async (request) => {
   try {
-    const { groupId } = await validateUser(request);
+    const groupId = await request.resolveValue(useGroupId);
     const weekId = toWeekId(getMonday(request.params.weekId));
     const result = await getWeekPlan(weekId, groupId);
     return result;

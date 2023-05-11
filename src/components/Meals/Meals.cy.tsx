@@ -1,8 +1,8 @@
-import type { Meal } from "~/lib/weekPlan/weekPlanTypes";
+import type { PlannedMeal } from "~/lib/weekPlan/weekPlanTypes";
 import Meals from "./Meals";
 import { $ } from "@builder.io/qwik";
 
-const MEALS: Meal[] = [
+const MEALS: PlannedMeal[] = [
   {
     id: "abc",
     name: "Meal 1",
