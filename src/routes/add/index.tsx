@@ -16,11 +16,18 @@ export default component$(() => {
   const groupId = useGroupId().value;
   return (
     <Layout>
-      <Header q:slot="header" />
-      <MealForm q:slot="main" onSave$={async (meal) => {
-        await addMeal(groupId, meal);
-        window.history.back()
-      }}/>
+      <Header q:slot="header">
+        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn" q:slot="start">
+          Back
+        </span>
+      </Header>
+      <MealForm
+        q:slot="main"
+        onSave$={async (meal) => {
+          await addMeal(groupId, meal);
+          window.history.back();
+        }}
+      />
     </Layout>
   );
 });

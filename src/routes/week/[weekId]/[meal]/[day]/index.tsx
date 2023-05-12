@@ -29,11 +29,15 @@ export default component$(() => {
   return (
     <Layout>
       <Header q:slot="header">
-        <span>aaa</span>
+        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn" q:slot="start">
+          Back
+        </span>
       </Header>
-      <Link q:slot="main" href="/add" class="btn btn-ghost">
-        Añadir comida nueva
-      </Link>
+      <div class={"w-full flex p-2 justify-center"} q:slot="main">
+        <Link href="/add" class="btn btn-ghost">
+          Añadir comida nueva
+        </Link>
+      </div>
       <Meals
         q:slot="main"
         meals={meals}

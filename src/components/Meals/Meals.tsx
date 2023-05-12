@@ -30,15 +30,17 @@ export default component$<Props>((props) => {
           </li>
         ))}
       </ul>
-      <button
-        class={`btn btn-primary ${props.isSaving ? "loading" : ""}`}
-        disabled={!selected.value}
-        onClick$={() => {
-          return props.onSelect$(selected.value);
-        }}
-      >
-        Guardar
-      </button>
+      <div class={"w-full flex sticky bottom-0 p-2 bg-base-200 justify-center"}>
+        <button
+          class={`btn btn-primary ${props.isSaving ? "loading" : ""}`}
+          disabled={!selected.value}
+          onClick$={() => {
+            return props.onSelect$(selected.value);
+          }}
+        >
+          Guardar
+        </button>
+      </div>
     </div>
   );
 });

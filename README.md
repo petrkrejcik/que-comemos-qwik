@@ -10,6 +10,9 @@
   - [ ] Add "Create new meal" in the menu
 - [ ] `eatFor` -> `daytime`
 - [ ] Disable focus state. [How](https://romansorin.com/blog/disabling-the-tailwind-input-ring)
+- [ ] Meal name stays in intput after create
+- [ ] JS exception during checking guarnicion
+
 
 
 # Dev notes
