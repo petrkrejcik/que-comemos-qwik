@@ -87,7 +87,7 @@ export const getDocument = async <T = ConvertedObject>(documentPath: string): Pr
 };
 
 export const getCollection = async <T = ConvertedObject>(documentPath: string): Promise<T[]> => {
-  const data = await fetchFirestore<FirestoreCollection>(`documents/${documentPath}`);
+  const data = await fetchFirestore<FirestoreCollection>(`documents/${documentPath}?pageSize=1000&orderBy=name`);
   const result = data.documents.map((doc) => {
     const id = doc.name?.split("/").pop();
     return convertFirestoreDocToObject<T>(doc, id);

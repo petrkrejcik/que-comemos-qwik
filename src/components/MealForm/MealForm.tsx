@@ -39,7 +39,7 @@ export default component$((props: Props) => {
         onChange$={(e) => (form.name = e.target.value)}
         type="text"
         placeholder="Como se llama la comida?"
-        class="input"
+        class="input input-bordered"
         id="meal"
         autoComplete="off"
       />
@@ -74,7 +74,7 @@ export default component$((props: Props) => {
         />
       </label>
 
-      <button type="submit" class="btn btn-primary" onClick$={onSaveClick}>
+      <button type="submit" class="btn btn-primary mt-8" onClick$={onSaveClick}>
         Guardar
       </button>
     </form>
