@@ -9,6 +9,7 @@ import getMeals from "~/lib/queries/getMeals";
 import type { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 import selectMeal from "~/lib/queries/selectMeal";
 import { useServerWeekPlan } from "~/routes/layout";
+import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
 
 export const useMeals = routeLoader$(async (request) => {
   try {
@@ -29,8 +30,8 @@ export default component$(() => {
   return (
     <Layout>
       <Header q:slot="header">
-        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn" q:slot="start">
-          Back
+        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn text-2xl" q:slot="start">
+          <HiArrowLeftOutline />
         </span>
       </Header>
       <div class={"w-full flex p-2 justify-center"} q:slot="main">

@@ -4,6 +4,7 @@ import Layout from "~/components/Layout/Layout";
 import MealForm from "~/components/MealForm/MealForm";
 import addMeal from "~/lib/queries/addMeal";
 import { useGroupId } from "~/routes/layout";
+import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
 
 export interface userData {
   photoURL: string | null;
@@ -17,8 +18,8 @@ export default component$(() => {
   return (
     <Layout>
       <Header q:slot="header">
-        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn" q:slot="start">
-          Back
+        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn text-2xl" q:slot="start">
+        <HiArrowLeftOutline />
         </span>
       </Header>
       <MealForm

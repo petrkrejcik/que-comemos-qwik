@@ -1,6 +1,6 @@
 import { component$, useVisibleTask$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
-import { decrementWeek, toWeekId, incrementWeek } from "~/lib/date/date";
+import { decrementWeek, toWeekId, incrementWeek, getWeekRelative } from "~/lib/date/date";
 
 type Props = {
   weekId: string;
@@ -18,7 +18,7 @@ export default component$((props: Props) => {
       <Link href={`/week/${toWeekId(decrementWeek(props.weekId))}`} class="btn btn-circle btn-ghost text-xl">
         ❮
       </Link>
-      <div class="text-lg grow">{props.weekId}</div>
+      <div class="text-lg grow">{getWeekRelative(props.weekId)}</div>
       <Link href={`/week/${toWeekId(incrementWeek(props.weekId))}`} class="btn btn-circle btn-ghost text-xl">
         ❯
       </Link>

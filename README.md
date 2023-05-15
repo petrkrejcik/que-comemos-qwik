@@ -1,10 +1,12 @@
 # Que comemos
 
 ## TODO
-- [ ] Add "Create new meal" in the meals list on the top
+- [x] Format week name
+- [x] Week days
+- [x] Add "Create new meal" in the meals list on the top
 - [x] Add Save button to meal selection page
 - [x] Implement `selectMeal` for saving a selected meal. It should save the meal when a user clicks on Save button
-- [ ] Change layout so the meals list is over 100% height. Do not use `justify-between` because it wouldn't work when the list is long.
+- [x] Change layout so the meals list is over 100% height. Do not use `justify-between` because it wouldn't work when the list is long.
 - [x] Create new / edit meal form
 - [ ] Add menu to the header
   - [ ] Add "Create new meal" in the menu
