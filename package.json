@@ -24,7 +24,8 @@
     "start": "vite --open --mode ssr",
     "start:production": "VITE_DISABLE_FIREBASE_EMULATORS=true vite --open --mode ssr",
     "test.e2e": "playwright test",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "test": "TZ=UTC yarn cypress open-ct"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.1.4",

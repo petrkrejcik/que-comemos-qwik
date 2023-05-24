@@ -31,11 +31,11 @@ export default component$(() => {
       }
     }
   });
-  
+
   useVisibleTask$(() => {
     // toggle loading
     store.loading = true;
-    
+
     // subscribe to user changes
     const unsubscribe = onIdTokenChanged(auth, async (user: User | null) => {
       store.loading = false;
@@ -58,6 +58,7 @@ export default component$(() => {
 
       // set store
       store.user = data;
+      store.isLogged = true;
     });
     return unsubscribe;
   });

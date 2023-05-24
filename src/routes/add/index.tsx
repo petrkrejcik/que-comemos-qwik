@@ -3,8 +3,8 @@ import { component$ } from "@builder.io/qwik";
 import Layout from "~/components/Layout/Layout";
 import MealForm from "~/components/MealForm/MealForm";
 import addMeal from "~/lib/queries/addMeal";
-// import { useGroupId } from "~/routes/layout";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
+import { useUser } from "~/lib/user/user";
 
 export interface userData {
   photoURL: string | null;
@@ -14,7 +14,8 @@ export interface userData {
 }
 
 export default component$(() => {
-  const groupId = "aaa";
+  const { groupId } = useUser();
+
   return (
     <Layout>
       <Header q:slot="header">
@@ -28,9 +29,9 @@ export default component$(() => {
       </Header>
       <MealForm
         q:slot="main"
-        onSave$={async (meal) => {
-          await addMeal(groupId, meal);
-          window.history.back();
+        onSave$={async (newMeal) => {
+          await addMeal(groupId, newMeal);
+          history.back();
         }}
       />
     </Layout>

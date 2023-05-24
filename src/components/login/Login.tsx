@@ -1,17 +1,10 @@
 import { component$ } from "@builder.io/qwik";
-import { useNavigate, type DocumentHead } from "@builder.io/qwik-city";
+import { type DocumentHead } from "@builder.io/qwik-city";
 import { login } from "~/lib/firebase/auth";
 
 export default component$(() => {
-  const goto = useNavigate();
   return (
-    <button
-      class="btn btn-primary"
-      onClick$={async () => {
-        await login();
-        goto("/"); // TODO goto doesn't work
-      }}
-    >
+    <button class="btn btn-primary" onClick$={login}>
       Login using Google
     </button>
   );

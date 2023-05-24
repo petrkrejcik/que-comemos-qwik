@@ -8,8 +8,8 @@
 - [x] Implement `selectMeal` for saving a selected meal. It should save the meal when a user clicks on Save button
 - [x] Change layout so the meals list is over 100% height. Do not use `justify-between` because it wouldn't work when the list is long.
 - [x] Create new / edit meal form
-- [ ] Redirect if date is not Monday (how to do that without introducing `onRequest`?)
-- [ ] Redirect to '/' after login (now it stays on login page)
+- [x] Redirect if date is not Monday (how to do that without introducing `onRequest`?)
+- [x] Redirect to '/' after login (now it stays on login page)
 - [ ] Add menu to the header
   - [ ] Add "Create new meal" in the menu
 - [ ] `eatFor` -> `daytime`

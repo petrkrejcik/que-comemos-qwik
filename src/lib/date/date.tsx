@@ -1,14 +1,16 @@
 import dayjs, { Dayjs } from "dayjs";
 import weekOfYear from 'dayjs/plugin/weekOfYear.js';
+import isoWeek from 'dayjs/plugin/isoWeek.js';
 dayjs.extend(weekOfYear);
+dayjs.extend(isoWeek)
 
 export const getMonday = (weekIdParam?: string) => {
-  const monday = dayjs(weekIdParam).startOf("week");
+  const monday = dayjs(weekIdParam).startOf("isoWeek");
   return monday;
 };
 
 export const fromWeekId = (weekId: string) => {
-  return dayjs(weekId).startOf("week");
+  return dayjs(weekId).startOf("isoWeek");
 };
 
 export const decrementWeek = (week: string, weeks: number | undefined = 1) => {

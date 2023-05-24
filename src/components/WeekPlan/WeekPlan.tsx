@@ -27,9 +27,7 @@ export default component$((props: Props) => {
   );
 
   const isToday = (day: number) => {
-    const monday = getMonday(props.weekId);
-    const dayOfWeek = dayjs().add(day, "day");
-    return monday.isSame(dayOfWeek, "day");
+    return getMonday(props.weekId).add(day, "day").isSame(dayjs(), "day");
   };
 
   return (
