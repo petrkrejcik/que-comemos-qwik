@@ -74,8 +74,8 @@ export const fetchFirestore = async <T = FirestoreDocument>(path: string, option
 
     return data;
   } catch (e) {
-    console.error(`Error when fetching Firestore document from url ${url}`);
-    console.error(e);
+    // console.error(`Error when fetching Firestore document from url ${url}`);
+    // console.error(e);
     throw e;
   }
 };
@@ -96,7 +96,10 @@ export const getCollection = async <T = ConvertedObject>(documentPath: string): 
 };
 
 export const updateDocument = async (documentPath: string, document: object): Promise<void> => {
-  await fetchFirestore(`documents/${documentPath}`, { method: "PATCH", body: JSON.stringify(document) });
+  await fetchFirestore(`documents/${documentPath}`, {
+    method: "PATCH",
+    body: JSON.stringify(document),
+  });
 };
 
 export const addDocument = async (documentPath: string, document: object): Promise<void> => {

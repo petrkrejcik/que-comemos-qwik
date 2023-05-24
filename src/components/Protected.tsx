@@ -8,9 +8,8 @@ export default component$(() => {
   const userStore = useUser();
   const isProtectedUrl = useProtectedUrl();
 
-  return (
-    <>
-      {isProtectedUrl ? userStore.loading ? "" : userStore.user ? <Slot /> : <Redirect to={pages.LOGIN} /> : <Slot />}
-    </>
-  );
+  if (isProtectedUrl && !userStore.isLogged) {
+    return <Redirect to={pages.LOGIN} />;
+  }
+  return <Slot />;
 });

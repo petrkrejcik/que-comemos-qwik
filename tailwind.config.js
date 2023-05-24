@@ -12,4 +12,7 @@ module.exports = {
     './src/**/*.html',
     './src/**/*.tsx',
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  }
 };

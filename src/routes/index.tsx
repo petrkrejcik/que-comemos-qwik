@@ -4,7 +4,7 @@ import WeekPlanPage from "~/components/WeekPlanPage/WeekPlanPage";
 import { getMonday, toWeekId } from "~/lib/date/date";
 
 export default component$(() => {
-  const weekId = toWeekId(getMonday())
+  const weekId = toWeekId(getMonday());
   return <WeekPlanPage weekId={weekId} />;
 });
 

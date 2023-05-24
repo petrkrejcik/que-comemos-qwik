@@ -3,7 +3,7 @@ import { component$ } from "@builder.io/qwik";
 import Layout from "~/components/Layout/Layout";
 import MealForm from "~/components/MealForm/MealForm";
 import addMeal from "~/lib/queries/addMeal";
-import { useGroupId } from "~/routes/layout";
+// import { useGroupId } from "~/routes/layout";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
 
 export interface userData {
@@ -14,7 +14,7 @@ export interface userData {
 }
 
 export default component$(() => {
-  const groupId = useGroupId().value;
+  const groupId = 'aaa';
   return (
     <Layout>
       <Header q:slot="header">

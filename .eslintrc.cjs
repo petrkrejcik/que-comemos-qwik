@@ -20,7 +20,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "prettier"],
   rules: {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -37,5 +37,6 @@ module.exports = {
     "no-console": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
     "@typescript-eslint/consistent-type-imports": "warn",
+    "prettier/prettier": ["error"],
   },
 };

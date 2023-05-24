@@ -18,7 +18,9 @@ export default component$<Props>((props) => {
           onClick$={() => {
             selected.value = meal.id;
           }}
-          class={`divide-y divide-current collapse${selected.value === meal.id ? "-open": ""} rounded-md ${
+          class={`divide-y divide-current collapse${
+            selected.value === meal.id ? "-open" : ""
+          } rounded-md ${
             selected.value === meal.id ? "bg-neutral-content" : ""
           }`}
           key={meal.id}
@@ -34,7 +36,12 @@ export default component$<Props>((props) => {
             {meal.name}
           </div>
           <div class="collapse-content flex justify-between">
-            <button class={`btn btn-outline btn-secondary ${props.isSaving ? "loading" : ""} invisible`} disabled>
+            <button
+              class={`btn btn-outline btn-secondary ${
+                props.isSaving ? "loading" : ""
+              } invisible`}
+              disabled
+            >
               Editar
             </button>
             <button

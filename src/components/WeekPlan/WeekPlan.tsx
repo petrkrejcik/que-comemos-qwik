@@ -1,8 +1,9 @@
-import { component$ } from "@builder.io/qwik";
-import { Link, useLocation } from "@builder.io/qwik-city";
+import { Resource, component$, useResource$ } from "@builder.io/qwik";
+import { Link } from "@builder.io/qwik-city";
 import dayjs from "dayjs";
-import { getMonday } from "~/lib/date/date";
-import { useServerWeekPlan } from "~/routes/layout";
+import { getMonday, toWeekId } from "~/lib/date/date";
+import getWeekPlan from "~/lib/queries/getWeekPlan";
+import { useUser } from "~/lib/user/user";
 
 type Props = {
   weekId: string;
@@ -11,11 +12,19 @@ type Props = {
 const dayNamesES = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"];
 
 export default component$((props: Props) => {
-  const weekPlan = useServerWeekPlan().value;
-  const location = useLocation();
-  const loading = location.isNavigating;
+  const { groupId } = useUser();
+  const weekPlanResource = useResource$(async ({ track }) => {
+    track(() => props.weekId);
+    const weekId = toWeekId(getMonday(props.weekId));
+    const result = await getWeekPlan(weekId, groupId);
+    return result;
+  });
 
-  const days = Array.from({ length: 7 }, (_, i) => weekPlan[`d${i as 0 | 1 | 2 | 3 | 4 | 5 | 6}`]);
+  // Generate an array of numbers between 0 and 6
+  const days = Array.from<number, 0 | 1 | 2 | 3 | 4 | 5 | 6>(
+    { length: 7 },
+    (_, i) => i as 0 | 1 | 2 | 3 | 4 | 5 | 6
+  );
 
   const isToday = (day: number) => {
     const monday = getMonday(props.weekId);
@@ -25,24 +34,46 @@ export default component$((props: Props) => {
 
   return (
     <ul class="divide-y divide-current">
-      {days.map((day, i) => {
+      {days.map((day) => {
         return (
-          <div class="flex items-center py-2" key={`${props.weekId}-${i}`}>
+          <div class="flex items-center py-2" key={`${props.weekId}-${day}`}>
             <div class="avatar placeholder mr-10">
-              <div class={`bg-neutral rounded-full w-12 h-12 ${isToday(i) ? "border-2 border-lime-500" : ""} `}>
-                <span class="capitalize text-primary-content">{dayNamesES[i]}</span>
+              <div
+                class={`bg-neutral rounded-full w-12 h-12 ${
+                  isToday(day) ? "border-2 border-lime-500" : ""
+                } `}
+              >
+                <span class="capitalize text-primary-content">
+                  {dayNamesES[day]}
+                </span>
               </div>
             </div>
             <div class="w-full flex items-center h-12">
-              {loading ? (
-                <div class="w-44 h-6 bg-base-200 rounded animate-pulse" />
-              ) : day?.lunch ? (
-                <Link href={`/week/${props.weekId}/lunch/${i}`}>{day.lunch.name}</Link>
-              ) : (
-                <Link href={`/week/${props.weekId}/lunch/${i}`} class="btn btn-ghost">
-                  Elegir
-                </Link>
-              )}
+              <Resource
+                value={weekPlanResource}
+                onPending={() => (
+                  <div class="w-44 h-6 bg-base-200 rounded animate-pulse" />
+                )}
+                onRejected={() => <p>Rejected</p>}
+                onResolved={(weekPlan) => {
+                  const { lunch } = weekPlan[`d${day}`] || {};
+                  if (!lunch) {
+                    return (
+                      <Link
+                        href={`/week/${props.weekId}/lunch/${day}`}
+                        class="btn btn-ghost"
+                      >
+                        Elegir
+                      </Link>
+                    );
+                  }
+                  return (
+                    <Link href={`/week/${props.weekId}/lunch/${day}`}>
+                      {lunch.name}
+                    </Link>
+                  );
+                }}
+              />
             </div>
           </div>
         );

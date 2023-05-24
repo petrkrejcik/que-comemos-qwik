@@ -1,36 +1,40 @@
-import { component$, useSignal } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import {
+  Resource,
+  component$,
+  useResource$,
+  useSignal,
+} from "@builder.io/qwik";
+import { Link, useLocation } from "@builder.io/qwik-city";
 import Layout from "~/components/Layout/Layout";
 import Meals from "~/components/Meals/Meals";
 import Header from "~/components/Head/Head";
-import validateUser from "~/lib/auth/validateUser";
 import getMeals from "~/lib/queries/getMeals";
 import type { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 import selectMeal from "~/lib/queries/selectMeal";
-import { useServerWeekPlan } from "~/routes/layout";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
-
-export const useMeals = routeLoader$(async (request) => {
-  try {
-    const { groupId } = await validateUser(request);
-    const meals = await getMeals(groupId);
-    const { weekId, day, meal } = request.params;
-    return { groupId, meals, weekId, day, meal };
-  } catch (e) {
-    return { groupId: "", meals: [] };
-  }
-});
+import { useUser } from "~/lib/user/user";
 
 export default component$(() => {
-  const { meals, groupId, weekId = "", day, meal = "" } = useMeals().value;
-  const weekPlan = useServerWeekPlan(); // To be able to extend (update) the week plan
+  const { groupId } = useUser();
+  const { weekId, day, meal } = useLocation().params;
+  const mealsResource = useResource$(async () => {
+    const result = await getMeals(groupId);
+    return result;
+  });
+
+  // const { meals, groupId, weekId = "", day, meal = "" } = useMeals().value;
+  // const weekPlan = useServerWeekPlan(); // To be able to extend (update) the week plan
+  const weekPlan = { value: {} };
   const isSaving = useSignal(false);
 
   return (
     <Layout>
       <Header q:slot="header">
-        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn text-2xl" q:slot="start">
+        <span
+          onClick$={() => history.back()}
+          class="btn btn-ghost btn-sm rounded-btn text-2xl"
+          q:slot="start"
+        >
           <HiArrowLeftOutline />
         </span>
       </Header>
@@ -39,27 +43,42 @@ export default component$(() => {
           Añadir comida nueva
         </Link>
       </div>
-      <Meals
-        q:slot="main"
-        meals={meals}
-        onSelect$={async (mealId) => {
-          isSaving.value = true;
-          const dayId = `d${day}`;
-          const newWeekPlan: WeekPlan = {
-            ...weekPlan.value,
-            [dayId]: {
-              [meal]: {
-                id: mealId,
-                name: meals.find((m) => m.id === mealId)?.name || "",
-              },
-            },
-          };
-          await selectMeal(groupId, weekId, newWeekPlan);
-          isSaving.value = false;
-          window.history.back();
-        }}
-        isSaving={isSaving.value}
-      />
+      <div q:slot="main">
+        <Resource
+          value={mealsResource}
+          onPending={() => <>loading</>}
+          onRejected={() => <p>Rejected</p>}
+          onResolved={(meals) => {
+            return (
+              <Meals
+                q:slot="main"
+                meals={meals}
+                onSelect$={async (mealId) => {
+                  isSaving.value = true;
+                  const dayId = `d${day}`;
+                  const newWeekPlan: WeekPlan = {
+                    [dayId]: {
+                      [meal]: {
+                        id: mealId,
+                        name: meals.find((m) => m.id === mealId)?.name || "",
+                      },
+                    },
+                  };
+                  try {
+                    await selectMeal(groupId, weekId, newWeekPlan);
+                    isSaving.value = false;
+                    window.history.back();
+                  } catch (error) {
+                    console.error(error);
+                    isSaving.value = false;
+                  }
+                }}
+                isSaving={isSaving.value}
+              />
+            );
+          }}
+        />
+      </div>
     </Layout>
   );
 });

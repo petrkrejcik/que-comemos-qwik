@@ -4,5 +4,6 @@ import { getCollection, getDocument, updateDocument } from "~/lib/firebase/rest"
 import { PlannedMeal, WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 
 export default async (groupId: string, weekId: string, meal: WeekPlan) => {
-  await updateDocument(`groups/${groupId}/weekPlans/${weekId}`, convertObjToDoc(meal));
+  const updateMask = Object.keys(meal).map(field => `updateMask.fieldPaths=${field}`).join('&');
+  await updateDocument(`groups/${groupId}/weekPlans/${weekId}?${updateMask}`, convertObjToDoc(meal));
 };
