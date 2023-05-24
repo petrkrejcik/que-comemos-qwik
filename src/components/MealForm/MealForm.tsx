@@ -51,7 +51,9 @@ export default component$((props: Props) => {
         class="select select-bordered w-full max-w-xs"
         aria-label="Eat for"
         id="eatFor"
-        onChange$={(e) => (form.eatFor = e.target.value as "lunch" | "dinner" | "side-dish")}
+        onChange$={(e) =>
+          (form.eatFor = e.target.value as "lunch" | "dinner" | "side-dish")
+        }
         value={form.eatFor}
       >
         {EAT_FOR.map((eatFor) => (

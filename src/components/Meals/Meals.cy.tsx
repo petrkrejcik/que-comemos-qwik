@@ -50,7 +50,10 @@ describe(`Meals component for selecting a meal`, () => {
     cy.mount(<Meals meals={MEALS} onSelect$={mock.save} isSaving={false} />);
 
     cy.findByText("Meal 1").click();
-    cy.findByRole("button", { name: "Guardar" }).click().wrap(onSelect).should("be.called");
+    cy.findByRole("button", { name: "Guardar" })
+      .click()
+      .wrap(onSelect)
+      .should("be.called");
   });
 
   it("should disable the button when saving", () => {

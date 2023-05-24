@@ -14,12 +14,16 @@ export interface userData {
 }
 
 export default component$(() => {
-  const groupId = 'aaa';
+  const groupId = "aaa";
   return (
     <Layout>
       <Header q:slot="header">
-        <span onClick$={() => history.back()} class="btn btn-ghost btn-sm rounded-btn text-2xl" q:slot="start">
-        <HiArrowLeftOutline />
+        <span
+          onClick$={() => history.back()}
+          class="btn btn-ghost btn-sm rounded-btn text-2xl"
+          q:slot="start"
+        >
+          <HiArrowLeftOutline />
         </span>
       </Header>
       <MealForm

@@ -19,11 +19,15 @@ describe(`Form for adding and editing a meal`, () => {
   it("should render the form", () => {
     cy.mount(<MealForm onSave$={mock.onSave$} />);
 
-    cy.findByRole("textbox", { name: "Meal" }).should("be.visible").should("be.empty");
+    cy.findByRole("textbox", { name: "Meal" })
+      .should("be.visible")
+      .should("be.empty");
     cy.findByRole("combobox", { name: "Eat for" })
       .should("be.visible")
       .should("contain.text", "ComidaCenaAcompañamiento");
-    cy.findByRole("checkbox", { name: "Puede tener acompañamiento?" }).should("be.visible").should("not.be.checked");
+    cy.findByRole("checkbox", { name: "Puede tener acompañamiento?" })
+      .should("be.visible")
+      .should("not.be.checked");
     cy.findByRole("button", { name: "Guardar" }).should("be.visible");
   });
 
@@ -31,7 +35,10 @@ describe(`Form for adding and editing a meal`, () => {
     const onSave = cy.spy(mock, "onSave$");
     cy.mount(<MealForm onSave$={mock.onSave$} />);
 
-    cy.findByRole("button", { name: "Guardar" }).click().wrap(onSave).should("be.not.be.called");
+    cy.findByRole("button", { name: "Guardar" })
+      .click()
+      .wrap(onSave)
+      .should("be.not.be.called");
   });
 
   it("should save with correct values", () => {
@@ -45,15 +52,26 @@ describe(`Form for adding and editing a meal`, () => {
     cy.findByRole("button", { name: "Guardar" })
       .click()
       .wrap(onSave)
-      .should("be.calledWith", { name: "A name", eatFor: "dinner", withSideDish: true });
+      .should("be.calledWith", {
+        name: "A name",
+        eatFor: "dinner",
+        withSideDish: true,
+      });
   });
 
   it("should render the form with prefilled meal", () => {
     cy.mount(<MealForm onSave$={mock.onSave$} meal={meal} />);
 
-    cy.findByRole("textbox", { name: "Meal" }).should("have.value", "Some meal");
-    cy.findByRole("combobox", { name: "Eat for" })
-      .should("have.value", "side-dish")
-    cy.findByRole("checkbox", { name: "Puede tener acompañamiento?" }).should("be.checked");
+    cy.findByRole("textbox", { name: "Meal" }).should(
+      "have.value",
+      "Some meal"
+    );
+    cy.findByRole("combobox", { name: "Eat for" }).should(
+      "have.value",
+      "side-dish"
+    );
+    cy.findByRole("checkbox", { name: "Puede tener acompañamiento?" }).should(
+      "be.checked"
+    );
   });
 });

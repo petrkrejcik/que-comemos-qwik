@@ -1,9 +1,9 @@
 import usePathname from "~/hooks/usePathname";
 
-const UNPROTECTED_PATHNAMES = ['login']
+const UNPROTECTED_PATHNAMES = ["login"];
 
-export default () => {
-  const [pathname] = usePathname()
- 
-  return !UNPROTECTED_PATHNAMES.includes(pathname)
+export default function useProtectedUrl() {
+  const [pathname] = usePathname();
+
+  return !UNPROTECTED_PATHNAMES.includes(pathname);
 }

@@ -1,8 +1,8 @@
 import { useLocation } from "@builder.io/qwik-city";
 
-export default () => {
-  const location = useLocation()
-  const pathname = location.url.pathname.split('/').filter(Boolean)
- 
-  return pathname
+export default function usePathname() {
+  const location = useLocation();
+  const pathname = location.url.pathname.split("/").filter(Boolean);
+
+  return pathname;
 }

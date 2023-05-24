@@ -28,6 +28,7 @@ export default component$(() => {
   const user = useUser();
   const nav = useNavigate();
 
+  // Maybe this is not necessary if we have `onRequest`?
   useVisibleTask$(({ track }) => {
     track(() => user.isLogged);
     if (user.isLogged) {

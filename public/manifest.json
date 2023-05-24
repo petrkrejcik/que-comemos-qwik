@@ -1,9 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "qwik-project-name",
-  "short_name": "Welcome to Qwik",
+  "name": "Que comemos",
+  "short_name": "Que comemos?",
+  "description": "Create your weekly meals plan",
   "start_url": ".",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#fff",
-  "description": "A Qwik project app."
+  "theme_color": "#2a2e37",
+  "background_color": "#18181b"
 }

@@ -1,8 +1,7 @@
 import { component$ } from "@builder.io/qwik";
-import type { DocumentHead, RequestEvent } from "@builder.io/qwik-city";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import { useLocation } from "@builder.io/qwik-city";
 import WeekPlanPage from "~/components/WeekPlanPage/WeekPlanPage";
-import { getMonday, toWeekId } from "~/lib/date/date";
 
 // export const onGet = ({ params, redirect }: RequestEvent) => {
 //   console.log("🛎 ", "gettt");

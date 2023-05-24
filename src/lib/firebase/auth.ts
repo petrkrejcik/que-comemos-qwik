@@ -1,3 +1,4 @@
+import { $ } from "@builder.io/qwik";
 import { connectAuthEmulator, getAuth, GoogleAuthProvider, signInWithPopup, type Auth } from "firebase/auth";
 import firebase from "~/lib/firebase/getFirebase";
 
@@ -20,17 +21,16 @@ if (!disableFirebaseEmulators) {
   initialiseEmulators(auth);
 }
 
-export const login = async () => {
+export const login = $(async () => {
   try {
     const userCredential = await signInWithPopup(auth, new GoogleAuthProvider());
     if (!userCredential) {
       throw new Error("Login failed");
     }
-    
-    // window.location.href = "/";
   } catch (e) {
     console.error(e);
+    throw e;
   }
-};
+});
 
 export default auth;
