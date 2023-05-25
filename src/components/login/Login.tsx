@@ -4,7 +4,7 @@ import { login } from "~/lib/firebase/auth";
 
 export default component$(() => {
   return (
-    <button class="btn btn-primary" onClick$={login}>
+    <button class="btn btn-primary" onClick$={() => login()}>
       Login using Google
     </button>
   );

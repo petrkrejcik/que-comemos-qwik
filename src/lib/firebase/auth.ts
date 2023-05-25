@@ -1,5 +1,4 @@
-import { $ } from "@builder.io/qwik";
-import { connectAuthEmulator, getAuth, GoogleAuthProvider, signInWithPopup, type Auth } from "firebase/auth";
+import { connectAuthEmulator, getAuth, GoogleAuthProvider, type Auth, signInWithPopup } from "firebase/auth";
 import firebase from "~/lib/firebase/getFirebase";
 
 const disableFirebaseEmulators = !!import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS as boolean;
@@ -21,7 +20,7 @@ if (!disableFirebaseEmulators) {
   initialiseEmulators(auth);
 }
 
-export const login = $(async () => {
+export const login = async () => {
   try {
     const userCredential = await signInWithPopup(auth, new GoogleAuthProvider());
     if (!userCredential) {
@@ -31,6 +30,6 @@ export const login = $(async () => {
     console.error(e);
     throw e;
   }
-});
+};
 
 export default auth;
