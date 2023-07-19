@@ -16,6 +16,8 @@
 - [ ] Disable focus state. [How](https://romansorin.com/blog/disabling-the-tailwind-input-ring)
 - [ ] Meal name stays in intput after create
 - [ ] JS exception during checking guarnicion
+- [ ] E2E tests
+- [ ] Add side dish
 
 
 
@@ -36,6 +38,28 @@ And it wasn't possible to get the types correct in the tests. In the end I've de
 - Login on the web via Firebase (Google provider)
 - Call `/auth` EP with `idToken`
 - Stores custom cookie with custom token
+
+## Group flow
+### Assign group ID to a new user
+- [ ] User logs in
+- [ ] Execute onCreate hook
+  - [ ] Create new group
+  - [ ] Assign group id to claims for newly created user
+  - [ ] Add demo meals
+
+### Existing user invites new user
+- [ ] Menu -> Add group member
+- [ ] Input email
+  - [ ] Call EP function `/invite`
+  - [ ] Search user by email
+  - [ ] If exists get it's `groupId`
+- [ ] Show pending invitations
+---
+- [ ] New member accepts the invitation
+- [ ] New member can see meals from invited group
+
+### Existing user invites existing user
+- [ ] 
 
 ## Doubts
 - How to fetch data from client directly from Firestore and not to go through the loader on the server?
