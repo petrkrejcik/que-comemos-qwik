@@ -56,8 +56,8 @@ export default component$((props: Props) => {
                 )}
                 onRejected={() => <p>Rejected</p>}
                 onResolved={(weekPlan) => {
-                  const meals = weekPlan[`d${day}`] || {};
-                  const meal = meals[daytime];
+                  const meals = weekPlan[`d${day}`];
+                  const meal = meals?.[daytime];
                   if (!meal) {
                     return (
                       <Link

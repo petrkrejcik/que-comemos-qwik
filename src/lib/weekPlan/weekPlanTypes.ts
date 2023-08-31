@@ -7,6 +7,7 @@ export interface PlannedMeal {
 
 interface Day {
   lunch: PlannedMeal;
+  dinner: PlannedMeal;
 }
 
 export interface WeekPlan {
