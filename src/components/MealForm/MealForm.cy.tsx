@@ -1,9 +1,9 @@
-import type { PlannedMeal } from "~/lib/weekPlan/weekPlanTypes";
 import { $ } from "@builder.io/qwik";
 import MealForm from "~/components/MealForm/MealForm";
 import type { Meal } from "~/types";
 
 const meal: Meal = {
+  id: "abc",
   name: "Some meal",
   eatFor: "side-dish",
   withSideDish: true,

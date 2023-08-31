@@ -14,14 +14,17 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import { QwikCityMockProvider } from "@builder.io/qwik-city";
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import { mount } from 'cypress-ct-qwik'
+import { mount } from "cypress-ct-qwik";
 
-import { addQwikLoader } from 'cypress-ct-qwik';
+import { addQwikLoader } from "cypress-ct-qwik";
+import type { JSXNode } from "@builder.io/qwik";
+import UserProviderMock from "~/lib/user/UserProviderMock";
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -30,13 +33,36 @@ import { addQwikLoader } from 'cypress-ct-qwik';
 declare global {
   namespace Cypress {
     interface Chainable {
-      mount: typeof mount
+      mount(
+        element: JSXNode,
+        options?: {
+          qwikMockProps?: { url?: string; params?: Record<string, string> };
+        }
+      ): Cypress.Chainable<unknown>;
     }
   }
 }
 
-Cypress.Commands.add('mount', mount)
+Cypress.Commands.add("mount", (content, { qwikMockProps } = {}) => {
+  mount(
+    <QwikCityMockProvider
+      {...qwikMockProps}
+      {...(qwikMockProps?.url && {
+        url: `${Cypress.config().baseUrl}/${qwikMockProps.url.replace(
+          /^\//,
+          ""
+        )}`,
+      })}
+    >
+      <UserProviderMock>{content}</UserProviderMock>
+    </QwikCityMockProvider>
+  );
+});
 
 // Example use:
 // cy.mount(MyComponent)
 addQwikLoader();
+
+beforeEach(() => {
+  console.clear();
+});

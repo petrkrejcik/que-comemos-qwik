@@ -3,6 +3,7 @@ import Layout from "~/components/Layout/Layout";
 import Header from "~/components/Head/Head";
 import WeekPlan from "~/components/WeekPlan/WeekPlan";
 import WeekSelect from "~/components/WeekSelect/WeekSelect";
+import DaytimeSelect from "~/components/DaytimeSelect/DaytimeSelect";
 
 type Props = {
   weekId: string;
@@ -14,6 +15,9 @@ export default component$((props: Props) => {
       <Header q:slot="header">
         <WeekSelect weekId={props.weekId} q:slot="center" />
       </Header>
+      {/* <div> */}
+      <DaytimeSelect q:slot="main" />
+      {/* </div> */}
       <WeekPlan weekId={props.weekId} q:slot="main" />
     </Layout>
   );

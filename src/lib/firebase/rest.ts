@@ -26,6 +26,20 @@ type ConvertedObject = {
   [key: string]: any;
 };
 
+type StructuredQuery = {
+  select?: {
+    fields: { fieldPath: string }[];
+  };
+  from: { collectionId: string }[];
+  where?: {
+    fieldFilter: {
+      field: { fieldPath: string };
+      op: "EQUAL" | "LESS_THAN" | "LESS_THAN_OR_EQUAL" | "GREATER_THAN" | "GREATER_THAN_OR_EQUAL";
+      value: FirestoreFieldValue;
+    }
+  };
+}
+
 const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument, id?: string): T => {
   let result: ConvertedObject = {
     ...(id && { id }),
@@ -86,8 +100,16 @@ export const getDocument = async <T = ConvertedObject>(documentPath: string): Pr
   return result;
 };
 
-export const getCollection = async <T = ConvertedObject>(documentPath: string): Promise<T[]> => {
-  const data = await fetchFirestore<FirestoreCollection>(`documents/${documentPath}?pageSize=1000&orderBy=name`);
+export const getCollection = async <T = ConvertedObject>(
+  documentPath: string,
+  options: { filters?: Record<string, unknown> } = {}
+): Promise<T[]> => {
+  let path = `documents/${documentPath}?pageSize=1000&orderBy=name`;
+  if (options.filters) {
+    path += `&filters=${encodeURIComponent(JSON.stringify({ fieldFilter: options.filters }))}`;
+  }
+  const data = await fetchFirestore<FirestoreCollection>(path);
+  // encodeURIComponent('{"fieldFilter": {"field": {"fieldPath": "fieldName"}, "op": "EQUAL", "value": "desiredValue"}}')}`);
   const result = data.documents.map((doc) => {
     const id = doc.name?.split("/").pop();
     return convertFirestoreDocToObject<T>(doc, id);
@@ -104,4 +126,12 @@ export const updateDocument = async (documentPath: string, document: object): Pr
 
 export const addDocument = async (documentPath: string, document: object): Promise<void> => {
   await fetchFirestore(`documents/${documentPath}`, { method: "POST", body: JSON.stringify(document) });
+};
+
+export const query = async <T = ConvertedObject>(documentPath: string, structuredQuery: StructuredQuery): Promise<T[]> => {
+  const documents = await fetchFirestore<{document: FirestoreDocument}[]>(`documents/${documentPath}:runQuery`, { method: "POST", body: JSON.stringify({structuredQuery}) });
+  return documents.map(({document}) => {
+    const id = document.name?.split("/").pop();
+    return convertFirestoreDocToObject(document, id);
+  })
 };

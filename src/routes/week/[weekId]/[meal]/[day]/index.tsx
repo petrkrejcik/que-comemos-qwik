@@ -13,18 +13,23 @@ import type { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 import selectMeal from "~/lib/queries/selectMeal";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
 import { useUser } from "~/lib/user/user";
+import getWeekPlan from "~/lib/queries/getWeekPlan";
+import { HiPlusOutline } from "@qwikest/icons/heroicons";
 
 export default component$(() => {
   const { groupId } = useUser();
   const { weekId, day, meal } = useLocation().params;
-  const mealsResource = useResource$(async () => {
-    const result = await getMeals(groupId);
-    return result;
+  const resources = useResource$(async ({ track }) => {
+    track(() => meal);
+    const eatFor = meal === "lunch-side-dish" ? "side-dish" : meal;
+    const meals = await getMeals(groupId, eatFor);
+    const weekPlan = await getWeekPlan(weekId, groupId);
+    return { meals, weekPlan };
   });
 
   // const { meals, groupId, weekId = "", day, meal = "" } = useMeals().value;
   // const weekPlan = useServerWeekPlan(); // To be able to extend (update) the week plan
-  const weekPlan = { value: {} };
+  // const weekPlan = { value: {} };
   const isSaving = useSignal(false);
 
   return (
@@ -38,26 +43,41 @@ export default component$(() => {
           <HiArrowLeftOutline />
         </span>
       </Header>
-      <div class={"w-full flex p-2 justify-center"} q:slot="main">
+      <div class={"w-full flex collapse-title"} q:slot="main">
+        <div class="avatar placeholder mr-4">
+          <div class={`rounded-full w-12 h-12`}>
+            <HiPlusOutline />
+          </div>
+        </div>
         <Link href="/add" class="btn btn-ghost">
           Añadir comida nueva
         </Link>
       </div>
       <div q:slot="main">
         <Resource
-          value={mealsResource}
+          value={resources}
           onPending={() => <>loading</>}
           onRejected={() => <p>Rejected</p>}
-          onResolved={(meals) => {
+          onResolved={({ meals, weekPlan }) => {
             return (
               <Meals
                 q:slot="main"
                 meals={meals}
+                isSaving={isSaving.value}
                 onSelect$={async (mealId) => {
                   isSaving.value = true;
-                  const dayId = `d${day}`;
+                  const dayId = `d${day}` as
+                    | "d0"
+                    | "d1"
+                    | "d2"
+                    | "d3"
+                    | "d4"
+                    | "d5"
+                    | "d6";
                   const newWeekPlan: WeekPlan = {
+                    ...weekPlan,
                     [dayId]: {
+                      ...(weekPlan[dayId] || {}),
                       [meal]: {
                         id: mealId,
                         name: meals.find((m) => m.id === mealId)?.name || "",
@@ -73,7 +93,6 @@ export default component$(() => {
                     isSaving.value = false;
                   }
                 }}
-                isSaving={isSaving.value}
               />
             );
           }}

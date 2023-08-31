@@ -10,11 +10,11 @@ const EAT_FOR = [
 ];
 
 type Props = {
-  onSave$: PropFunction<(meal: Meal) => void>;
+  onSave$: PropFunction<(meal: Omit<Meal, "id">) => void>;
   meal?: Meal;
 };
 
-const EMPTY_MEAL: Meal = {
+const EMPTY_MEAL: Omit<Meal, "id"> = {
   name: "",
   eatFor: "lunch",
   withSideDish: false,

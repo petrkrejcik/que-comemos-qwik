@@ -33,6 +33,7 @@ And it wasn't possible to get the types correct in the tests. In the end I've de
 - I would like to prefetch some Firestore calls but I don't know how to do that.
 - I like to `<Slot />` API
 - There is `useErrorBoundary()` but it's not documented so I don't know how error boundaries work
+- Component tests are intercepting `/api/auth` because this route is used to refresh token. But as we have a fake token in tests we don't need that. Even the route is not accessible because when running component tests we don't have express server running for listening on that path.
 
 ## Auth
 - Login on the web via Firebase (Google provider)

@@ -1,6 +1,7 @@
 import { Resource, component$, useResource$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import dayjs from "dayjs";
+import useDaytime from "~/hooks/useDaytime";
 import { getMonday, toWeekId } from "~/lib/date/date";
 import getWeekPlan from "~/lib/queries/getWeekPlan";
 import { useUser } from "~/lib/user/user";
@@ -13,6 +14,7 @@ const dayNamesES = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"];
 
 export default component$((props: Props) => {
   const { groupId } = useUser();
+  const daytime = useDaytime();
   const weekPlanResource = useResource$(async ({ track }) => {
     track(() => props.weekId);
     const weekId = toWeekId(getMonday(props.weekId));
@@ -34,7 +36,7 @@ export default component$((props: Props) => {
     <ul class="divide-y divide-current">
       {days.map((day) => {
         return (
-          <div class="flex items-center py-2" key={`${props.weekId}-${day}`}>
+          <li class="flex items-center py-2" key={`${props.weekId}-${day}`}>
             <div class="avatar placeholder mr-10">
               <div
                 class={`bg-neutral rounded-full w-12 h-12 ${
@@ -54,11 +56,12 @@ export default component$((props: Props) => {
                 )}
                 onRejected={() => <p>Rejected</p>}
                 onResolved={(weekPlan) => {
-                  const { lunch } = weekPlan[`d${day}`] || {};
-                  if (!lunch) {
+                  const meals = weekPlan[`d${day}`] || {};
+                  const meal = meals[daytime];
+                  if (!meal) {
                     return (
                       <Link
-                        href={`/week/${props.weekId}/lunch/${day}`}
+                        href={`/week/${props.weekId}/${daytime}/${day}`}
                         class="btn btn-ghost"
                       >
                         Elegir
@@ -66,14 +69,14 @@ export default component$((props: Props) => {
                     );
                   }
                   return (
-                    <Link href={`/week/${props.weekId}/lunch/${day}`}>
-                      {lunch.name}
+                    <Link href={`/week/${props.weekId}/${daytime}/${day}`}>
+                      {meal.name}
                     </Link>
                   );
                 }}
               />
             </div>
-          </div>
+          </li>
         );
       })}
     </ul>

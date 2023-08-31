@@ -6,19 +6,20 @@ import auth from "~/lib/firebase/auth";
 import refreshCustomToken from "~/lib/user/refreshCustomToken";
 import validateUser from "~/server/validateUser";
 
-export interface userData {
+export interface UserData {
   photoURL: string | null;
   uid: string;
   displayName: string | null;
   email: string | null;
 }
 
-type UserContextType = { groupId: string; isLogged: boolean; loading: boolean; user: userData | null };
+export type UserContextType = { groupId: string; isLogged: boolean; loading: boolean; user: UserData | null };
+const defaultUserContext: UserContextType = { groupId: "", isLogged: false, loading: false, user: null };
 
 export const UserContext = createContextId<UserContextType>("user-context");
 
-export default component$(() => {
-  const store = useStore<UserContextType>({ groupId: "", isLogged: false, loading: true, user: null });
+export default component$(({ userContext }: { userContext?: UserContextType }) => {
+  const store = useStore<UserContextType>(userContext || defaultUserContext);
 
   useTask$(async () => {
     if (isServer) {

@@ -4,6 +4,7 @@ import {
   HiChevronLeftOutline,
   HiChevronRightOutline,
 } from "@qwikest/icons/heroicons";
+import useDaytime from "~/hooks/useDaytime";
 import {
   decrementWeek,
   toWeekId,
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default component$((props: Props) => {
+  const daytime = useDaytime();
   // The hook is needed in order to re-render page when props.weekId changes.
   // I don't understand why it's needed. IMHO the component should be re-rendered when props change.
   useVisibleTask$(() => {
@@ -25,14 +27,14 @@ export default component$((props: Props) => {
   return (
     <div class="flex items-center gap-2">
       <Link
-        href={`/week/${toWeekId(decrementWeek(props.weekId))}`}
+        href={`/week/${toWeekId(decrementWeek(props.weekId))}/${daytime}`}
         class="btn  btn-ghost text-3xl"
       >
         <HiChevronLeftOutline />
       </Link>
       <div class="text-lg grow">{getWeekRelative(props.weekId)}</div>
       <Link
-        href={`/week/${toWeekId(incrementWeek(props.weekId))}`}
+        href={`/week/${toWeekId(incrementWeek(props.weekId))}/${daytime}`}
         class="btn btn-ghost text-3xl"
       >
         <HiChevronRightOutline />
