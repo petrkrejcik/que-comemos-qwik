@@ -18,6 +18,7 @@
 - [ ] JS exception during checking guarnicion
 - [ ] E2E tests
 - [ ] Add side dish
+- [ ] When custom token is invalid and Firebase token is valid user sees a login button for a while
 
 
 
@@ -37,8 +38,9 @@ And it wasn't possible to get the types correct in the tests. In the end I've de
 
 ## Auth
 - Login on the web via Firebase (Google provider)
-- Call `/auth` EP with `idToken`
+- Call `/api/auth` EP with `idToken` from Firebase
 - Stores custom cookie with custom token
+- When opening a page the custom token is passed (via cookie) and validated. If it's valid SSR will return page with user's content.
 
 ## Group flow
 ### Assign group ID to a new user

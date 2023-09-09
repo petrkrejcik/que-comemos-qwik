@@ -12,11 +12,24 @@ type Props = {
 
 const dayNamesES = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"];
 
+const Loading = component$(() => {
+  return (
+    <div
+      class="w-44 h-6 bg-base-200 rounded animate-pulse"
+      role="progressbar"
+    />
+  );
+});
+
 export default component$((props: Props) => {
-  const { groupId } = useUser();
+  const { groupId, loading } = useUser();
   const daytime = useDaytime();
   const weekPlanResource = useResource$(async ({ track }) => {
     track(() => props.weekId);
+    track(() => loading);
+    if (loading) {
+      return null; // Still checking if user is logged in
+    }
     const weekId = toWeekId(getMonday(props.weekId));
     const result = await getWeekPlan(weekId, groupId);
     return result;
@@ -51,11 +64,12 @@ export default component$((props: Props) => {
             <div class="w-full flex items-center h-12">
               <Resource
                 value={weekPlanResource}
-                onPending={() => (
-                  <div class="w-44 h-6 bg-base-200 rounded animate-pulse" />
-                )}
+                onPending={() => <Loading />}
                 onRejected={() => <p>Rejected</p>}
                 onResolved={(weekPlan) => {
+                  if (weekPlan === null) {
+                    return <Loading />;
+                  }
                   const meals = weekPlan[`d${day}`];
                   const meal = meals?.[daytime];
                   if (!meal) {

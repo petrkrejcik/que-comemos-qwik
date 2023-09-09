@@ -5,6 +5,9 @@ import { COOKIE_USER_TOKEN } from "~/lib/auth/consts";
 import getJwtSecret from "~/lib/auth/getJwtSecret";
 import parseJwt from "~/lib/auth/parseJwt";
 
+/**
+ * Creates new token from Firebase ID token.
+ */
 export const onPost = async (request: RequestEvent) => {
   const body = await request.parseBody();
   if (

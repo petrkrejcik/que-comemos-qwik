@@ -38,6 +38,9 @@ type StructuredQuery = {
       value: FirestoreFieldValue;
     }
   };
+  orderBy?: {
+    field: { fieldPath: string };
+  }[]
 }
 
 const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument, id?: string): T => {
@@ -128,10 +131,16 @@ export const addDocument = async (documentPath: string, document: object): Promi
   await fetchFirestore(`documents/${documentPath}`, { method: "POST", body: JSON.stringify(document) });
 };
 
+/**
+ * Performs a structured query.
+ */
 export const query = async <T = ConvertedObject>(documentPath: string, structuredQuery: StructuredQuery): Promise<T[]> => {
   const documents = await fetchFirestore<{document: FirestoreDocument}[]>(`documents/${documentPath}:runQuery`, { method: "POST", body: JSON.stringify({structuredQuery}) });
   return documents.map(({document}) => {
+    if (!document) {
+      return null;
+    }
     const id = document.name?.split("/").pop();
     return convertFirestoreDocToObject(document, id);
-  })
+  }).filter(Boolean) as T[];
 };

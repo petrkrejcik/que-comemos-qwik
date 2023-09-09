@@ -29,13 +29,14 @@ export default component$(({ userContext }: { userContext?: UserContextType }) =
         store.groupId = groupId;
       } catch (e) {
         store.isLogged = false;
+        store.loading = true;
       }
     }
   });
 
   useVisibleTask$(() => {
     // toggle loading
-    store.loading = true;
+    store.loading = !store.isLogged;
 
     // subscribe to user changes
     const unsubscribe = onIdTokenChanged(auth, async (user: User | null) => {

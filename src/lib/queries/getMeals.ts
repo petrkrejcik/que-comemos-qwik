@@ -19,6 +19,13 @@ export default async (groupId: string, eatFor: string) => {
         },
       },
     },
+    orderBy: [
+      {
+        field: {
+          fieldPath: "name",
+        },
+      },
+    ],
   });
   return collection;
 };

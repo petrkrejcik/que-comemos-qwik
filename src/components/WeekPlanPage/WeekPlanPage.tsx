@@ -15,9 +15,7 @@ export default component$((props: Props) => {
       <Header q:slot="header">
         <WeekSelect weekId={props.weekId} q:slot="center" />
       </Header>
-      {/* <div> */}
       <DaytimeSelect q:slot="main" />
-      {/* </div> */}
       <WeekPlan weekId={props.weekId} q:slot="main" />
     </Layout>
   );

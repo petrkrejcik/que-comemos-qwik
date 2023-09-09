@@ -28,6 +28,7 @@
     "test.e2e": "playwright test",
     "qwik": "qwik",
     "test:component": "TZ=UTC yarn cypress open --component --browser chrome",
+    "test:e2e": "TZ=UTC yarn cypress open --e2e --browser chrome",
     "test": "yarn start-server-and-test emulators:start:test 127.0.0.1:4000 test:component"
   },
   "devDependencies": {
