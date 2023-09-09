@@ -10,7 +10,9 @@ export default component$(() => {
     try {
       const logged = await signInWithEmailAndPassword(auth, "test@test.com", "123456");
       const { claims } = await logged?.user.getIdTokenResult();
-      userContext.groupId = claims.groupId;
+      if (typeof claims.groupId === "string") {
+        userContext.groupId = claims.groupId;
+      }
       userContext.user = {
         displayName: logged.user.displayName,
         email: logged.user.email,
@@ -18,12 +20,12 @@ export default component$(() => {
         uid: logged.user.uid,
       };
     } catch (e) {
-      console.log('Cannot fake user');
+      console.log("Cannot fake user");
     }
   });
 
   return (
-    <UserProvider userContext={{...userContext}}>
+    <UserProvider userContext={{ ...userContext }}>
       <Slot />
     </UserProvider>
   );
