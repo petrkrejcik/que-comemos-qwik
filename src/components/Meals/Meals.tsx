@@ -23,7 +23,7 @@ export default component$<Props>((props) => {
           <input type="radio" name="meals" class="appearance-none opacity-0" />
           <div class="collapse-title w-full flex items-center h-12">
             <div class="avatar placeholder mr-10">
-              <div class={`bg-neutral rounded-full w-12 h-12`}>
+              <div class={`bg-base-200 rounded-full w-12 h-12`}>
                 <span class="capitalize text-primary-content"></span>
               </div>
             </div>

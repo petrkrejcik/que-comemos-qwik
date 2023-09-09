@@ -2,7 +2,7 @@ import { component$, Slot } from "@builder.io/qwik";
 
 export default component$(() => {
   return (
-    <header class="navbar bg-base-200 sticky top-0">
+    <header class="navbar bg-accent sticky top-0 z-10">
       <div class="navbar-start">
         <Slot name="start" />
       </div>

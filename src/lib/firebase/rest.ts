@@ -133,6 +133,7 @@ export const addDocument = async (documentPath: string, document: object): Promi
 
 /**
  * Performs a structured query.
+ * @see https://cloud.google.com/firestore/docs/reference/rest/v1/StructuredQuery
  */
 export const query = async <T = ConvertedObject>(documentPath: string, structuredQuery: StructuredQuery): Promise<T[]> => {
   const documents = await fetchFirestore<{document: FirestoreDocument}[]>(`documents/${documentPath}:runQuery`, { method: "POST", body: JSON.stringify({structuredQuery}) });

@@ -46,17 +46,21 @@ export default component$((props: Props) => {
   };
 
   return (
-    <ul class="divide-y divide-current">
+    <ul class="divide-y divide-base-300">
       {days.map((day) => {
         return (
           <li class="flex items-center py-2" key={`${props.weekId}-${day}`}>
             <div class="avatar placeholder mr-10">
               <div
-                class={`bg-neutral rounded-full w-12 h-12 ${
-                  isToday(day) ? "border-2 border-lime-500" : ""
+                class={`bg-base-200 rounded-full w-12 h-12 ${
+                  isToday(day) ? "border-2 border-primary" : ""
                 } `}
               >
-                <span class="capitalize text-primary-content">
+                <span
+                  class={`capitalize text-neutral ${
+                    isToday(day) ? "text-neutral" : ""
+                  }`}
+                >
                   {dayNamesES[day]}
                 </span>
               </div>
