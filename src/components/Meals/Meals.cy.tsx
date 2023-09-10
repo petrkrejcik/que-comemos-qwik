@@ -107,5 +107,10 @@ describe(`<Meals />`, () => {
         "/week/2020-01-01/lunch-side-dish/1"
       );
     });
+
+    /**
+     * @todo Implement and add test
+     */
+    xit("should select also a meal when first choosing a side dish", () => {});
   });
 });

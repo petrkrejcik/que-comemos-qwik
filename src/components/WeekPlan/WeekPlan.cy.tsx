@@ -13,7 +13,7 @@ describe(`When <WeekPlan> is rendered`, () => {
       expect(items[0])
         .to.contain.text("Albondigas")
         .to.have.attr("href", "/week/2023-05-01/lunch/0");
-      expect(items[1]).to.contain.text("Bacalao");
+      expect(items[1]).to.contain.text("Bacalao con Patatas");
       expect(items[2]).to.contain.text("Chilli con carne");
       expect(items[3]).to.contain.text("Dorada");
       expect(items[4]).to.contain.text("Estofado");

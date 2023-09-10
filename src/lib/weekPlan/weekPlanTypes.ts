@@ -8,6 +8,8 @@ export interface PlannedMeal {
 interface Day {
   lunch: PlannedMeal;
   dinner: PlannedMeal;
+  'lunch-side-dish': PlannedMeal;
+  'dinner-side-dish': PlannedMeal;
 }
 
 export interface WeekPlan {

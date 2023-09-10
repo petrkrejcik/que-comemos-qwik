@@ -24,6 +24,7 @@ const Loading = component$(() => {
 export default component$((props: Props) => {
   const { groupId, loading } = useUser();
   const daytime = useDaytime();
+  const sideDishKey = `${daytime}-side-dish` as const;
   const weekPlanResource = useResource$(async ({ track }) => {
     track(() => props.weekId);
     track(() => loading);
@@ -76,6 +77,7 @@ export default component$((props: Props) => {
                   }
                   const meals = weekPlan[`d${day}`];
                   const meal = meals?.[daytime];
+                  const sideDish = meals?.[sideDishKey];
                   if (!meal) {
                     return (
                       <Link
@@ -89,6 +91,7 @@ export default component$((props: Props) => {
                   return (
                     <Link href={`/week/${props.weekId}/${daytime}/${day}`}>
                       {meal.name}
+                      {sideDish ? ` con ${sideDish.name}` : ""}
                     </Link>
                   );
                 }}
