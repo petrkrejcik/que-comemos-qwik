@@ -9,7 +9,8 @@ const initialiseEmulators = (auth: Auth) => {
     if (!emulatorsInitialised) {
       console.info("Initialising Firebase Auth emulator");
 
-      connectAuthEmulator(auth, "http://127.0.0.1:9099");
+      // connectAuthEmulator(auth, "http://127.0.0.1:9099");
+      connectAuthEmulator(auth, "http://192.168.1.130:9099");
       emulatorsInitialised = true;
     }
   }

@@ -12,7 +12,8 @@ import getConfig from "~/lib/firebase/getConfig";
 const generateEmulatorToken = async () => {
   try {
     const response = await fetch(
-      "http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU",
+      // "http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU",
+      "http://192.168.1.130:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU",
       {
         method: "POST",
         headers: {

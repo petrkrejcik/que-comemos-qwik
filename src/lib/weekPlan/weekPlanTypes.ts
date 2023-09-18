@@ -6,10 +6,10 @@ export interface PlannedMeal {
 }
 
 interface Day {
-  lunch: PlannedMeal;
-  dinner: PlannedMeal;
-  'lunch-side-dish': PlannedMeal;
-  'dinner-side-dish': PlannedMeal;
+  lunch?: PlannedMeal;
+  dinner?: PlannedMeal;
+  'lunch-side-dish'?: PlannedMeal;
+  'dinner-side-dish'?: PlannedMeal;
 }
 
 export interface WeekPlan {
@@ -22,3 +22,5 @@ export interface WeekPlan {
   d6?: Day;
   id?: string;
 }
+
+export type DayNumber = "d0" | "d1" | "d2" | "d3" | "d4" | "d5" | "d6";

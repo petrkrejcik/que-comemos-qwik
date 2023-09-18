@@ -63,7 +63,8 @@ const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument
 
 const getHost = () => {
   if (import.meta.env.DEV && !import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS) {
-    return "http://127.0.0.1:8080";
+    // return "http://127.0.0.1:8080";
+    return "http://192.168.1.130:8080";
   } else {
     return "https://firestore.googleapis.com";
   }

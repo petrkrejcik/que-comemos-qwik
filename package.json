@@ -32,7 +32,9 @@
     "test:e2e": "TZ=UTC yarn cypress open --e2e --browser chrome",
     "test:all": "yarn cypress run --e2e --browser chrome && yarn cypress run --component --browser chrome",
     "test:all:ci": "TZ=UTC yarn start-server-and-test 'yarn emulators:start:test' 127.0.0.1:4000 'yarn preview:ci' http://localhost:4173 'yarn test:all'",
-    "test": "yarn start-server-and-test emulators:start:test 127.0.0.1:4000 test:component"
+    "test": "yarn start-server-and-test emulators:start:test 127.0.0.1:4000 test:component",
+    "_test:all:ci": "TZ=UTC yarn start-server-and-test 'yarn emulators:start:test' http://192.168.1.130:4000 'yarn preview:ci' http://localhost:4173 'yarn test:all'",
+    "_test": "yarn start-server-and-test emulators:start:test http://192.168.1.130:4000 test:component"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.1.4",
@@ -68,6 +70,7 @@
     "daisyui": "^3.7.3",
     "dayjs": "^1.11.9",
     "firebase": "^10.3.1",
+    "immer": "^10.0.2",
     "nanoid": "^4.0.2"
   }
 }

@@ -39,6 +39,8 @@ export default component$(() => {
           onClick$={() => history.back()}
           class="btn btn-ghost btn-sm rounded-btn text-2xl"
           q:slot="start"
+          aria-role="button"
+          aria-label="Back"
         >
           <HiArrowLeftOutline />
         </span>

@@ -38,3 +38,26 @@ describe(`When <WeekPlan> is rendered`, () => {
     });
   });
 });
+
+xdescribe(`When user drags a meal`, () => {
+  describe(`and releases it above another meal`, () => {
+    it("should swap the meals", () => {
+      cy.intercept("/api/auth", { body: {} });
+      cy.mount(<WeekPlan weekId="2023-05-01" />, {
+        qwikMockProps: {
+          url: "/week/2023-05-01/lunch",
+          params: { weekId: "2023-05-01", meal: "lunch" },
+        },
+      });
+      cy.findAllByRole("listitem").first().as("source");
+      cy.findAllByRole("listitem").eq(1).as("target");
+
+      cy.get("@source").should("contain.text", "Albondigas");
+      cy.get("@target").should("contain.text", "Bacalao con Patatas");
+
+      cy.get("@source").trigger("touchmove", {
+        targetTouches: [{ pageX: 50, pageY: 100 }],
+      });
+    });
+  });
+});

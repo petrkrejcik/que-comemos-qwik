@@ -1,16 +1,36 @@
-import { Resource, component$, useResource$ } from "@builder.io/qwik";
+import {
+  Resource,
+  component$,
+  useResource$,
+  useSignal,
+  // useSignal,
+  // useStore,
+  useVisibleTask$,
+} from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import dayjs from "dayjs";
 import useDaytime from "~/hooks/useDaytime";
 import { getMonday, toWeekId } from "~/lib/date/date";
 import getWeekPlan from "~/lib/queries/getWeekPlan";
+import selectMeal from "~/lib/queries/selectMeal";
+import swapMeals from "~/lib/queries/swapMeals";
 import { useUser } from "~/lib/user/user";
+import type { DayNumber } from "~/lib/weekPlan/weekPlanTypes";
 
 type Props = {
   weekId: string;
 };
 
 const dayNamesES = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"];
+const dayNamesLongES = [
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+  "Domingo",
+];
 
 const Loading = component$(() => {
   return (
@@ -23,17 +43,23 @@ const Loading = component$(() => {
 
 export default component$((props: Props) => {
   const { groupId, loading } = useUser();
+  const rerender = useSignal("");
   const daytime = useDaytime();
   const sideDishKey = `${daytime}-side-dish` as const;
   const weekPlanResource = useResource$(async ({ track }) => {
     track(() => props.weekId);
     track(() => loading);
+    track(() => rerender.value);
     if (loading) {
       return null; // Still checking if user is logged in
     }
     const weekId = toWeekId(getMonday(props.weekId));
     const result = await getWeekPlan(weekId, groupId);
     return result;
+  });
+
+  useVisibleTask$(() => {
+    import("~/lib/dragAndDrop/dragAndDrop");
   });
 
   // Generate an array of numbers between 0 and 6
@@ -47,59 +73,102 @@ export default component$((props: Props) => {
   };
 
   return (
-    <ul class="divide-y divide-base-300">
-      {days.map((day) => {
-        return (
-          <li class="flex items-center py-2" key={`${props.weekId}-${day}`}>
-            <div class="avatar placeholder mr-10">
-              <div
-                class={`bg-base-200 rounded-full w-12 h-12 ${
-                  isToday(day) ? "border-2 border-primary" : ""
-                } `}
-              >
-                <span
-                  class={`capitalize text-neutral ${
-                    isToday(day) ? "text-neutral" : ""
-                  }`}
+    <>
+      <ul class="divide-y divide-base-300">
+        {days.map((day) => {
+          return (
+            <li
+              preventdefault:dragover
+              class={`flex items-center py-2`}
+              // ref={(r) => (elementRefs[day] = r)}
+              key={`${props.weekId}-${day}`}
+              draggable
+              onDragStart$={(e) => {
+                e.dataTransfer.setData("text/plain", `d${day}`);
+                navigator.vibrate(200); // vibrate for 200ms
+              }}
+              onDragOver$={(e) => {
+                const sourceDay = e.dataTransfer.getData(
+                  "text/plain"
+                ) as DayNumber;
+                if (sourceDay === `d${day}`) return;
+              }}
+              onDrop$={(e) => {
+                weekPlanResource.value.then(async (weekPlan) => {
+                  if (!weekPlan) return;
+                  const sourceDay = e.dataTransfer.getData(
+                    "text/plain"
+                  ) as DayNumber;
+                  const newWeekPlan = swapMeals(
+                    weekPlan,
+                    sourceDay,
+                    `d${day}`,
+                    daytime
+                  );
+                  await selectMeal(groupId, props.weekId, newWeekPlan);
+                  rerender.value = new Date().toISOString();
+                });
+              }}
+            >
+              <div class="avatar placeholder mr-10">
+                <div
+                  class={`bg-base-200 rounded-full w-12 h-12 ${
+                    isToday(day) ? "border-2 border-primary" : ""
+                  } `}
                 >
-                  {dayNamesES[day]}
-                </span>
+                  <span
+                    class={`capitalize text-neutral ${
+                      isToday(day) ? "text-neutral" : ""
+                    }`}
+                  >
+                    {dayNamesES[day]}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div class="w-full flex items-center h-12">
-              <Resource
-                value={weekPlanResource}
-                onPending={() => <Loading />}
-                onRejected={() => <p>Rejected</p>}
-                onResolved={(weekPlan) => {
-                  if (weekPlan === null) {
-                    return <Loading />;
-                  }
-                  const meals = weekPlan[`d${day}`];
-                  const meal = meals?.[daytime];
-                  const sideDish = meals?.[sideDishKey];
-                  if (!meal) {
+              <div class="w-full flex items-center h-12">
+                <Resource
+                  value={weekPlanResource}
+                  onPending={() => <Loading />}
+                  onRejected={() => <p>Rejected</p>}
+                  onResolved={(weekPlan) => {
+                    if (weekPlan === null) {
+                      return <Loading />;
+                    }
+                    const meals = weekPlan[`d${day}`];
+                    const meal = meals?.[daytime];
+                    const sideDish = meals?.[sideDishKey];
+                    if (!meal) {
+                      return (
+                        <Link
+                          href={`/week/${props.weekId}/${daytime}/${day}`}
+                          class="btn btn-ghost"
+                          aria-label={`Elegir ${dayNamesLongES[day]}`}
+                        >
+                          Elegir
+                        </Link>
+                      );
+                    }
                     return (
-                      <Link
-                        href={`/week/${props.weekId}/${daytime}/${day}`}
-                        class="btn btn-ghost"
-                      >
-                        Elegir
+                      <Link href={`/week/${props.weekId}/${daytime}/${day}`}>
+                        {meal.name}
+                        {sideDish ? ` con ${sideDish.name}` : ""}
                       </Link>
                     );
-                  }
-                  return (
-                    <Link href={`/week/${props.weekId}/${daytime}/${day}`}>
-                      {meal.name}
-                      {sideDish ? ` con ${sideDish.name}` : ""}
-                    </Link>
-                  );
-                }}
-              />
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+                  }}
+                />
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      {/* {dragging.day !== undefined && (
+        <div
+          class="absolute"
+          style={{ left: `${dragging.x}px`, top: `${dragging.y}px` }}
+        >
+          jeduuu
+        </div>
+      )} */}
+    </>
   );
 });

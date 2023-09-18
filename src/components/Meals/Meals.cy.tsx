@@ -80,15 +80,15 @@ describe(`<Meals />`, () => {
       cy.mount(<Meals meals={MEALS} onSelect$={mock.save} />);
 
       cy.findByText("Meal 1").click({ force: true });
-      cy.findByRole("button", { name: "Acampañamiento para Meal 1" }).should(
+      cy.findByRole("button", { name: "Acompañamiento para Meal 1" }).should(
         "be.visible"
       );
       cy.findByText("Meal 2").click({ force: true });
-      cy.findByRole("button", { name: "Acampañamiento para Meal 2" }).should(
+      cy.findByRole("button", { name: "Acompañamiento para Meal 2" }).should(
         "not.exist"
       );
       cy.findByText("Meal 3").click({ force: true });
-      cy.findByRole("button", { name: "Acampañamiento para Meal 3" }).should(
+      cy.findByRole("button", { name: "Acompañamiento para Meal 3" }).should(
         "be.visible"
       );
     });
@@ -101,16 +101,11 @@ describe(`<Meals />`, () => {
       });
 
       cy.findByText("Meal 1").click({ force: true });
-      cy.findByRole("button", { name: "Acampañamiento para Meal 1" }).should(
+      cy.findByRole("button", { name: "Acompañamiento para Meal 1" }).should(
         "have.attr",
         "href",
         "/week/2020-01-01/lunch-side-dish/1"
       );
     });
-
-    /**
-     * @todo Implement and add test
-     */
-    xit("should select also a meal when first choosing a side dish", () => {});
   });
 });

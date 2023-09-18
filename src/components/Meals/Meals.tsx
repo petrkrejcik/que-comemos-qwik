@@ -34,10 +34,10 @@ export default component$<Props>((props) => {
               <Link
                 class={`btn btn-ghost btn-primary`}
                 role="button"
-                aria-label={`Acampañamiento para ${meal.name}`}
+                aria-label={`Acompañamiento para ${meal.name}`}
                 href={`/week/${location.params.weekId}/lunch-side-dish/${location.params.day}`}
               >
-                Acampañamiento
+                Acompañamiento
               </Link>
             )}
             <span
