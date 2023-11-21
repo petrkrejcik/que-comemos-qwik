@@ -2,7 +2,7 @@ import { component$, useVisibleTask$, useTask$, Slot } from "@builder.io/qwik";
 import { useContextProvider, createContextId, useStore } from "@builder.io/qwik";
 import { isServer } from "@builder.io/qwik/build";
 import { User, onIdTokenChanged } from "firebase/auth";
-import auth from "~/lib/firebase/auth";
+import getAuth from "~/lib/firebase/auth";
 import refreshCustomToken from "~/lib/user/refreshCustomToken";
 import validateUser from "~/server/validateUser";
 
@@ -27,6 +27,7 @@ export default component$(({ userContext }: { userContext?: UserContextType }) =
         const { groupId } = await validateUser();
         store.isLogged = true;
         store.groupId = groupId;
+        store.loading = false;
       } catch (e) {
         store.isLogged = false;
         store.loading = true;
@@ -39,15 +40,16 @@ export default component$(({ userContext }: { userContext?: UserContextType }) =
     store.loading = !store.isLogged;
 
     // subscribe to user changes
-    const unsubscribe = onIdTokenChanged(auth, async (user: User | null) => {
+    const unsubscribe = onIdTokenChanged(getAuth(), async (user: User | null) => {
       store.loading = false;
       if (!user) {
         store.isLogged = false;
         store.user = null;
         return;
       }
+      
+      const { claims } = await user.getIdTokenResult();
 
-      const { claims } = await user?.getIdTokenResult();
       const { groupId } = claims;
       if (!groupId) {
         throw new Error("No groupId");
@@ -62,6 +64,7 @@ export default component$(({ userContext }: { userContext?: UserContextType }) =
       store.user = data;
       store.isLogged = true;
     });
+    
     return unsubscribe;
   });
 

@@ -1,4 +1,4 @@
-import { FirestoreDocument } from "~/lib/firebase/rest";
+import { FirestoreDocument } from "./types";
 
 export default function convertDocToFirestoreDoc(doc: any) {
   const result: FirestoreDocument = {

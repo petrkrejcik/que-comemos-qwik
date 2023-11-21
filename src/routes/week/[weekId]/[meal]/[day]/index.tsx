@@ -19,6 +19,7 @@ import { HiPlusOutline } from "@qwikest/icons/heroicons";
 export default component$(() => {
   const { groupId } = useUser();
   const { weekId, day, meal } = useLocation().params;
+  // const meal = useDaytime() // todo: use better this
   const resources = useResource$(async ({ track }) => {
     track(() => meal);
     const eatFor = meal === "lunch-side-dish" ? "side-dish" : meal;
@@ -86,6 +87,7 @@ export default component$(() => {
                       },
                     },
                   };
+                  delete newWeekPlan[dayId]?.[`${meal as "lunch"}-side-dish`]; // `meal` should be properly typed
                   try {
                     await selectMeal(groupId, weekId, newWeekPlan);
                     isSaving.value = false;

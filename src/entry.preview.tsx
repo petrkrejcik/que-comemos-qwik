@@ -13,8 +13,15 @@
 import { createQwikCity } from "@builder.io/qwik-city/middleware/node";
 import render from "./entry.ssr";
 import qwikCityPlan from "@qwik-city-plan";
+import type { RenderToStreamOptions } from "@builder.io/qwik/server";
+
+const shouldUseEmulators = import.meta.env.VITE_EMUL === "true";
 
 /**
  * The default export is the QwikCity adaptor used by Vite preview.
  */
-export default createQwikCity({ render, qwikCityPlan });
+
+export default createQwikCity({
+  render: (opts: RenderToStreamOptions) => render(opts, shouldUseEmulators),
+  qwikCityPlan,
+});

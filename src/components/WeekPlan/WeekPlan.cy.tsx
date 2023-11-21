@@ -1,6 +1,13 @@
 import WeekPlan from "~/components/WeekPlan/WeekPlan";
+import { DEFAULT_WEEK_PLAN } from "../../../cypress/fixtures/weekPlans";
 
 describe(`When <WeekPlan> is rendered`, () => {
+  beforeEach(() => {
+    cy.clearDb();
+    cy.seedDb();
+    cy.addWeekPlan("2023-05-01", DEFAULT_WEEK_PLAN);
+  });
+
   it("should show 7 days with lunches", () => {
     cy.intercept("/api/auth", { body: {} });
     cy.mount(<WeekPlan weekId="2023-05-01" />, {
@@ -11,14 +18,14 @@ describe(`When <WeekPlan> is rendered`, () => {
     });
     cy.findAllByRole("link").should((items) => {
       expect(items[0])
-        .to.contain.text("Albondigas")
+        .to.contain.text("Pescado")
         .to.have.attr("href", "/week/2023-05-01/lunch/0");
-      expect(items[1]).to.contain.text("Bacalao con Patatas");
-      expect(items[2]).to.contain.text("Chilli con carne");
+      expect(items[1]).to.contain.text("Cerdo con Patatas");
+      expect(items[2]).to.contain.text("Pollo");
       expect(items[3]).to.contain.text("Dorada");
-      expect(items[4]).to.contain.text("Estofado");
-      expect(items[5]).to.contain.text("Fideua");
-      expect(items[6]).to.contain.text("Garbanzos");
+      expect(items[4]).to.contain.text("Garbanzos");
+      expect(items[5]).to.contain.text("Pasta");
+      expect(items[6]).to.contain.text("Lentejas");
     });
   });
 
@@ -31,7 +38,7 @@ describe(`When <WeekPlan> is rendered`, () => {
       },
     });
     cy.findAllByRole("link").should((items) => {
-      expect(items[0]).to.contain.text("Chilli con carne");
+      expect(items[0]).to.contain.text("Tortilla francesa");
       expect(items[1])
         .to.contain.text("Elegir")
         .to.have.attr("href", "/week/2023-05-01/dinner/1");

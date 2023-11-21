@@ -1,47 +1,13 @@
-import { DocumentReference } from "firebase/firestore";
-import generateToken from "~/lib/firebase/generateToken";
-import getConfig from "~/lib/firebase/getConfig";
-
-export interface FirestoreDocument {
-  name?: string;
-  fields: {
-    [key: string]: FirestoreFieldValue;
-  };
-}
-
-interface FirestoreCollection {
-  documents: FirestoreDocument[];
-}
-
-type FirestoreFieldValue =
-  | { stringValue: string }
-  | { integerValue: string }
-  | { doubleValue: number }
-  | { booleanValue: boolean }
-  | { nullValue: null }
-  | { arrayValue: { values: FirestoreFieldValue[] } }
-  | { mapValue: FirestoreDocument };
-
-type ConvertedObject = {
-  [key: string]: any;
-};
-
-type StructuredQuery = {
-  select?: {
-    fields: { fieldPath: string }[];
-  };
-  from: { collectionId: string }[];
-  where?: {
-    fieldFilter: {
-      field: { fieldPath: string };
-      op: "EQUAL" | "LESS_THAN" | "LESS_THAN_OR_EQUAL" | "GREATER_THAN" | "GREATER_THAN_OR_EQUAL";
-      value: FirestoreFieldValue;
-    }
-  };
-  orderBy?: {
-    field: { fieldPath: string };
-  }[]
-}
+import getAuth from "./auth";
+import type {
+  ConvertedObject,
+  FirestoreDocument,
+  FirestoreFieldValue,
+  FirestoreCollection,
+  StructuredQuery,
+} from "./types";
+import generateToken from "./generateToken";
+import getConfig from "./getConfig";
 
 const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument, id?: string): T => {
   let result: ConvertedObject = {
@@ -62,9 +28,9 @@ const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument
 };
 
 const getHost = () => {
-  if (import.meta.env.DEV && !import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS) {
-    // return "http://127.0.0.1:8080";
-    return "http://192.168.1.130:8080";
+  if (!!getAuth().emulatorConfig) {
+    const { protocol, host } = getAuth().emulatorConfig || {};
+    return `${protocol}://${host}:8080`;
   } else {
     return "https://firestore.googleapis.com";
   }
@@ -136,13 +102,21 @@ export const addDocument = async (documentPath: string, document: object): Promi
  * Performs a structured query.
  * @see https://cloud.google.com/firestore/docs/reference/rest/v1/StructuredQuery
  */
-export const query = async <T = ConvertedObject>(documentPath: string, structuredQuery: StructuredQuery): Promise<T[]> => {
-  const documents = await fetchFirestore<{document: FirestoreDocument}[]>(`documents/${documentPath}:runQuery`, { method: "POST", body: JSON.stringify({structuredQuery}) });
-  return documents.map(({document}) => {
-    if (!document) {
-      return null;
-    }
-    const id = document.name?.split("/").pop();
-    return convertFirestoreDocToObject(document, id);
-  }).filter(Boolean) as T[];
+export const query = async <T = ConvertedObject>(
+  documentPath: string,
+  structuredQuery: StructuredQuery
+): Promise<T[]> => {
+  const documents = await fetchFirestore<{ document: FirestoreDocument }[]>(`documents/${documentPath}:runQuery`, {
+    method: "POST",
+    body: JSON.stringify({ structuredQuery }),
+  });
+  return documents
+    .map(({ document }) => {
+      if (!document) {
+        return null;
+      }
+      const id = document.name?.split("/").pop();
+      return convertFirestoreDocToObject(document, id);
+    })
+    .filter(Boolean) as T[];
 };

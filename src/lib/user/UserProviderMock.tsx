@@ -1,14 +1,14 @@
-import { component$, useVisibleTask$, useTask$, Slot, useSignal, useStore } from "@builder.io/qwik";
+import { component$, useTask$, Slot, useStore } from "@builder.io/qwik";
 import UserProvider, { UserContextType } from "~/lib/user/UserProvider";
-import { User, onIdTokenChanged, signInWithEmailAndPassword } from "firebase/auth";
-import auth from "~/lib/firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import getAuth from "~/lib/firebase/auth";
 
-export default component$(() => {
+export default component$((props: {user: {email: string, password: string}}) => {
   const userContext = useStore<UserContextType>({ groupId: "", isLogged: true, loading: false, user: null });
 
   useTask$(async () => {
     try {
-      const logged = await signInWithEmailAndPassword(auth, "test@test.com", "123456");
+      const logged = await signInWithEmailAndPassword(getAuth(), props.user.email, props.user.password);
       const { claims } = await logged?.user.getIdTokenResult();
       if (typeof claims.groupId === "string") {
         userContext.groupId = claims.groupId;

@@ -3,8 +3,6 @@ import {
   component$,
   useResource$,
   useSignal,
-  // useSignal,
-  // useStore,
   useVisibleTask$,
 } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";

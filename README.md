@@ -13,14 +13,24 @@
 - [ ] Add menu to the header
   - [ ] Add "Create new meal" in the menu
 - [ ] `eatFor` -> `daytime`
-- [ ] Disable focus state. [How](https://romansorin.com/blog/disabling-the-tailwind-input-ring)
-- [ ] Meal name stays in intput after create
+- [ ] Meal name stays in input after create
 - [ ] JS exception during checking guarnicion
-- [ ] E2E tests
-- [ ] Add side dish
+- [ ] Add side dish always
 - [ ] When custom token is invalid and Firebase token is valid user sees a login button for a while
+- [ ] Delete meal
+  - Test started, not run yet. Missing adding Remove button in the component
+- [ ] Notification about upcoming dinner
+- [ ] PWA
+- [ ] Installable app in Play Store
+- [ ] Tanstack Query
+- [ ] Preselect selected food
+- [ ] Add a shortcut to add a side dish from the week menu
+- [ ] When swapping meals the side-dish stays
+- [ ] Add option to remove side-dish
+- [x] Make `cy.login` part of `cy.visit`
 
-
+# Testing on mobile device
+- Need to replace every occurrence of 0.0.0.0 or 192.168.1.130 with 192.168.1.130
 
 # Dev notes
 - I tried to use `routeAction$` for selecting meal but it's tricky to get the types. The Props needed to accept:
@@ -36,11 +46,19 @@ And it wasn't possible to get the types correct in the tests. In the end I've de
 - There is `useErrorBoundary()` but it's not documented so I don't know how error boundaries work
 - Component tests are intercepting `/api/auth` because this route is used to refresh token. But as we have a fake token in tests we don't need that. Even the route is not accessible because when running component tests we don't have express server running for listening on that path.
 
+## DB seeding
+- It's difficult to write tests without knowing what's stored in the database. It would be better to seed the DB in each test separately.
+  - When a test mutates the DB the change will stay there for subsequent test
+
+## Initializing emulators
+The `connectAuthEmulator` needs to be called directly after `getAuthFirebase`. There was an issue with Cypress that it cannot read ENV variables using `import.meta.env`. That's why I wanted to use a different entry point (`entry.ssr.emul.tsx`) when emulators should be enabled. That way I didn't need to use `import.meta.env` in the code but rather the specific entry point would initialize the emulators.
+Cypress E2E tests cannot handle when a tests imports a file that contains reference to an ENV variable using `import.meta.env.`. I want to use rest functions to seed DB that's why I want to import them in the tests.
+
 ## Auth
 - Login on the web via Firebase (Google provider)
 - Call `/api/auth` EP with `idToken` from Firebase
 - Stores custom cookie with custom token
-- When opening a page the custom token is passed (via cookie) and validated. If it's valid SSR will return page with user's content.
+- When opening a page the custom token is passed (via cookie) and validated. If it's valid then SSR will return page with user's content.
 
 ## Group flow
 ### Assign group ID to a new user

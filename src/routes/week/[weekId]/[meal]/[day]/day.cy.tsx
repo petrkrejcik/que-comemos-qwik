@@ -1,10 +1,17 @@
+import { DEFAULT_WEEK_PLAN } from "../../../../../../cypress/fixtures/weekPlans";
 import Day from "./index";
 
 describe(`Day route`, () => {
+  beforeEach(() => {
+    cy.clearDb();
+    cy.seedDb();
+    cy.addWeekPlan("2023-05-01", DEFAULT_WEEK_PLAN);
+  });
+
   it("should show loading", () => {
     cy.mount(<Day />, {
       qwikMockProps: {
-        params: { meal: "lunch", weekId: "2020-01-01", day: "1" },
+        params: { meal: "lunch", weekId: "2023-05-01", day: "1" },
       },
     });
 
@@ -15,22 +22,36 @@ describe(`Day route`, () => {
   it("should show lunches", () => {
     cy.mount(<Day />, {
       qwikMockProps: {
-        params: { meal: "lunch", weekId: "2020-01-01", day: "1" },
+        params: { meal: "lunch", weekId: "2023-05-01", day: "1" },
       },
     });
 
-    cy.findByText("Albondigas").should("be.visible");
+    cy.findByText("Cerdo").should("be.visible");
+    cy.findByText("Tortilla francesa").should("not.exist");
+    cy.findByText("Patatas").should("not.exist");
+  });
+
+  it("Show dinners", () => {
+    cy.mount(<Day />, {
+      qwikMockProps: {
+        params: { meal: "dinner", weekId: "2023-01-01", day: "1" },
+      },
+    });
+
+    cy.findByText("Tortilla francesa").should("be.visible");
+    cy.findByText("Cerdo").should("not.exist");
     cy.findByText("Patatas").should("not.exist");
   });
 
   it("should show side dishes", () => {
     cy.mount(<Day />, {
       qwikMockProps: {
-        params: { meal: "lunch-side-dish", weekId: "2020-01-01", day: "1" },
+        params: { meal: "lunch-side-dish", weekId: "2023-05-01", day: "1" },
       },
     });
 
-    cy.findByText("Albondigas").should("not.exist");
+    cy.findByText("Cerdo").should("not.exist");
+    cy.findByText("Tortilla francesa").should("not.exist");
     cy.findByText("Patatas").should("be.visible");
   });
 
@@ -39,25 +60,14 @@ describe(`Day route`, () => {
 
     cy.mount(<Day />, {
       qwikMockProps: {
-        params: { meal: "lunch", weekId: "2020-01-01", day: "1" },
+        params: { meal: "lunch", weekId: "2023-05-01", day: "1" },
       },
     });
 
-    cy.findByText("Albondigas").parent().click();
-    cy.findByRole("button", { name: "Elegir Albondigas" })
+    cy.findByText("Cerdo").parent().click();
+    cy.findByRole("button", { name: "Elegir Cerdo" })
       .should("be.visible")
       .click();
     cy.window().its("history.back").should("be.called");
-  });
-
-  it("Show dinners", () => {
-    cy.mount(<Day />, {
-      qwikMockProps: {
-        params: { meal: "dinner", weekId: "2020-01-01", day: "1" },
-      },
-    });
-
-    cy.findByText("Pizza").should("be.visible");
-    cy.findByText("Albondigas").should("not.exist");
   });
 });

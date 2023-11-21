@@ -15,14 +15,22 @@ import { renderToStream } from "@builder.io/qwik/server";
 import { manifest } from "@qwik-client-manifest";
 import Root from "./root";
 
-export default function (opts: RenderToStreamOptions) {
-  return renderToStream(<Root />, {
-    manifest,
-    ...opts,
-    // Use container attributes to set attributes on the html tag.
-    containerAttributes: {
-      lang: "en-us",
-      ...opts.containerAttributes,
-    },
-  });
+const shouldUseEmulators = import.meta.env.VITE_EMUL === "true";
+
+export default function (
+  opts: RenderToStreamOptions,
+  shouldUseEmulatorsProp?: boolean
+) {
+  return renderToStream(
+    <Root shouldUseEmulators={shouldUseEmulatorsProp || shouldUseEmulators} />,
+    {
+      manifest,
+      ...opts,
+      // Use container attributes to set attributes on the html tag.
+      containerAttributes: {
+        lang: "en-us",
+        ...opts.containerAttributes,
+      },
+    }
+  );
 }

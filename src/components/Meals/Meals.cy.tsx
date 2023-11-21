@@ -108,4 +108,22 @@ describe(`<Meals />`, () => {
       );
     });
   });
+
+  // describe.skip(`When the component is rendered`, () => {
+  //   describe(`and a meal is selected`, () => {
+  //     it("should show the delete button which calls onDelete", () => {
+  //       cy.mount(
+  //         <Meals meals={MEALS} onSelect$={mock.save} onRemove$={mock.remove} />,
+  //         {
+  //           qwikMockProps: {
+  //             params: { weekId: "2020-01-01", day: "1" },
+  //           },
+  //         }
+  //       );
+
+  //       cy.findByText("Meal 1").click({ force: true });
+  //       cy.findByRole("button", { name: "Remove Meal 3" }).should("be.visible");
+  //     });
+  //   });
+  // });
 });

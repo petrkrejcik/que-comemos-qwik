@@ -1,7 +1,6 @@
-import { DocumentData, DocumentReference } from "firebase/firestore";
 import convertObjToDoc from "~/lib/firebase/convertObjToDoc";
-import { getCollection, getDocument, updateDocument } from "~/lib/firebase/rest";
-import { PlannedMeal, WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
+import { updateDocument } from "~/lib/firebase/rest";
+import { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 
 export default async (groupId: string, weekId: string, weekPlan: WeekPlan) => {
   const updateMask = Object.keys(weekPlan).map(field => `updateMask.fieldPaths=${field}`).join('&');

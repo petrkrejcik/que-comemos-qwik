@@ -1,6 +1,7 @@
 // @ts-ignore
 import { getTokenFromGCPServiceAccount } from "@sagi.io/workers-jwt";
-import getConfig from "~/lib/firebase/getConfig";
+import getAuth from "./auth";
+import getConfig from "./getConfig";
 // import { FlarebaseAuth } from 'flarebase-auth';
 
 // const auth = new FlarebaseAuth({
@@ -12,8 +13,8 @@ import getConfig from "~/lib/firebase/getConfig";
 const generateEmulatorToken = async () => {
   try {
     const response = await fetch(
-      // "http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU",
-      "http://192.168.1.130:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU",
+      "http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU",
+      // "http://192.168.1.130:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfTjSCoH4xl6UFa31Eyj8h-Tf2ZxwPbmU",
       {
         method: "POST",
         headers: {
@@ -39,7 +40,7 @@ export default async () => {
   //   'my@email.com',
   //   'supersecurepassword'
   // );
-  if (import.meta.env.DEV && !import.meta.env.VITE_DISABLE_FIREBASE_EMULATORS) {
+  if (!!getAuth().emulatorConfig) {
     return generateEmulatorToken();
   }
 

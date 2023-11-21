@@ -24,7 +24,10 @@ import { mount } from "cypress-ct-qwik";
 
 import { addQwikLoader } from "cypress-ct-qwik";
 import type { JSXNode } from "@builder.io/qwik";
-import UserProviderMock from "~/lib/user/UserProviderMock";
+import UserProviderMock from "../../src/lib/user/UserProviderMock";
+import initializeEmulators from "../../src/lib/firebase/initializeEmulators";
+import getAuth from "~/lib/firebase/auth";
+import { DEFAULT_USER } from "../fixtures/users";
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -54,7 +57,7 @@ Cypress.Commands.add("mount", (content, { qwikMockProps } = {}) => {
         )}`,
       })}
     >
-      <UserProviderMock>{content}</UserProviderMock>
+      <UserProviderMock user={DEFAULT_USER}>{content}</UserProviderMock>
     </QwikCityMockProvider>
   );
 });
@@ -62,6 +65,10 @@ Cypress.Commands.add("mount", (content, { qwikMockProps } = {}) => {
 // Example use:
 // cy.mount(MyComponent)
 addQwikLoader();
+
+before(() => {
+  initializeEmulators(getAuth());
+});
 
 beforeEach(() => {
   console.clear();
