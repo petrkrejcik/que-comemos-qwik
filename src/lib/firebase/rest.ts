@@ -28,27 +28,20 @@ const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument
 };
 
 const getHost = () => {
-  console.log('🛎 ', 'getHost');
-  console.log('🛎 ', 'auth emul?', !!getAuth().emulatorConfig);
   if (!!getAuth().emulatorConfig) {
-    console.log('🛎 ', 'emul get host');
     const { protocol, host } = getAuth().emulatorConfig || {};
     return `${protocol}://${host}:8080`;
   } else {
-    console.log('🛎 ', 'prod');
     return "https://firestore.googleapis.com";
   }
 };
 
 export const fetchFirestore = async <T = FirestoreDocument>(path: string, options?: RequestInit): Promise<T> => {
-  console.log('🛎 ', 'get config');
   const { projectId } = getConfig();
   const url = `${getHost()}/v1/projects/${projectId}/databases/(default)/${path}`;
-  console.log('🛎 ', 'generate token', {url});
   const token = await generateToken();
 
   try {
-    console.log('🛎 ', 'fetching');
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -58,10 +51,8 @@ export const fetchFirestore = async <T = FirestoreDocument>(path: string, option
     });
 
     if (!response.ok) {
-      console.log('🛎 ', 'not ok');
       throw new Error(`Failed to fetch Firestore document. Status code: ${response.status}`);
     }
-    console.log('🛎 ', 'resopnse ok');
 
     const data = await response.json();
 

@@ -48,17 +48,11 @@ export default component$((props: Props) => {
     track(() => props.weekId);
     track(() => loading);
     track(() => rerender.value);
-    console.log("🛎 ", "WeekPlan:useResource", {
-      loading,
-      props: props.weekId,
-      groupId,
-    });
     if (loading) {
       return null; // Still checking if user is logged in
     }
     const weekId = toWeekId(getMonday(props.weekId));
     const result = await getWeekPlan(weekId, groupId);
-    console.log("🛎 ", "result", result);
     return result;
   });
 

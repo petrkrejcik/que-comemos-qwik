@@ -10,6 +10,7 @@
 - [x] Create new / edit meal form
 - [x] Redirect if date is not Monday (how to do that without introducing `onRequest`?)
 - [x] Redirect to '/' after login (now it stays on login page)
+- [ ] Food not loaded on first page load
 - [ ] Add menu to the header
   - [ ] Add "Create new meal" in the menu
 - [ ] `eatFor` -> `daytime`

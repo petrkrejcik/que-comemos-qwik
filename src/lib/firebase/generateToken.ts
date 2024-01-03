@@ -41,22 +41,13 @@ export default async () => {
   //   'supersecurepassword'
   // );
   if (!!getAuth().emulatorConfig) {
-    console.log('🛎 ', 'emul token');
     return generateEmulatorToken();
   }
 
-  console.log('🛎 ', 'getting config');
   const { serviceAccountJSON } = getConfig();
   const aud = `https://firestore.googleapis.com/google.firestore.v1.Firestore`;
 
-  try {
-    console.log('🛎 ', 'getting token');
-    const token = await getTokenFromGCPServiceAccount({ serviceAccountJSON, aud });
-    console.log('🛎 ', 'token', token);
-    return token;
-    
-  } catch (error) {
-    console.log('🛎 ', 'error in sagi', error, {SA: !!serviceAccountJSON});
-  }
+  const token = await getTokenFromGCPServiceAccount({ serviceAccountJSON, aud });
 
+  return token;
 };
