@@ -58,6 +58,7 @@ export default component$((props: Props) => {
     }
     const weekId = toWeekId(getMonday(props.weekId));
     const result = await getWeekPlan(weekId, groupId);
+    console.log("🛎 ", "result", result);
     return result;
   });
 
