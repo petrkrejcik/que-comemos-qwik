@@ -28,10 +28,14 @@ const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument
 };
 
 const getHost = () => {
+  console.log('🛎 ', 'getHost');
+  console.log('🛎 ', 'auth emul?', !!getAuth().emulatorConfig);
   if (!!getAuth().emulatorConfig) {
+    console.log('🛎 ', 'emul get host');
     const { protocol, host } = getAuth().emulatorConfig || {};
     return `${protocol}://${host}:8080`;
   } else {
+    console.log('🛎 ', 'prod');
     return "https://firestore.googleapis.com";
   }
 };
