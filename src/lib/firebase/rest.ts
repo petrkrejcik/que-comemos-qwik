@@ -42,6 +42,7 @@ export const fetchFirestore = async <T = FirestoreDocument>(path: string, option
   const token = await generateToken();
 
   try {
+    console.log('🛎 ', 'fetching');
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,8 +52,10 @@ export const fetchFirestore = async <T = FirestoreDocument>(path: string, option
     });
 
     if (!response.ok) {
+      console.log('🛎 ', 'not ok');
       throw new Error(`Failed to fetch Firestore document. Status code: ${response.status}`);
     }
+    console.log('🛎 ', 'resopnse ok');
 
     const data = await response.json();
 

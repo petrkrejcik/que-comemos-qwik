@@ -44,11 +44,14 @@ export default async () => {
     return generateEmulatorToken();
   }
 
+  console.log('🛎 ', 'getting config');
   const { serviceAccountJSON } = getConfig();
   const aud = `https://firestore.googleapis.com/google.firestore.v1.Firestore`;
 
   try {
+    console.log('🛎 ', 'getting token');
     const token = await getTokenFromGCPServiceAccount({ serviceAccountJSON, aud });
+    console.log('🛎 ', 'token', token);
     return token;
     
   } catch (error) {
