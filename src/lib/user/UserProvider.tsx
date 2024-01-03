@@ -29,6 +29,7 @@ export default component$(({ userContext }: { userContext?: UserContextType }) =
         store.groupId = groupId;
         store.loading = false;
       } catch (e) {
+        console.log('🛎 ', 'UserProvider:useTask - not valid user');
         store.isLogged = false;
         store.loading = true;
       }
