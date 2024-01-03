@@ -47,7 +47,12 @@ export default async () => {
   const { serviceAccountJSON } = getConfig();
   const aud = `https://firestore.googleapis.com/google.firestore.v1.Firestore`;
 
-  const token = await getTokenFromGCPServiceAccount({ serviceAccountJSON, aud });
+  try {
+    const token = await getTokenFromGCPServiceAccount({ serviceAccountJSON, aud });
+    return token;
+    
+  } catch (error) {
+    console.log('🛎 ', 'error in sagi', error, {SA: !!serviceAccountJSON});
+  }
 
-  return token;
 };
