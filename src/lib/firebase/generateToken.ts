@@ -41,6 +41,7 @@ export default async () => {
   //   'supersecurepassword'
   // );
   if (!!getAuth().emulatorConfig) {
+    console.log('🛎 ', 'emul token');
     return generateEmulatorToken();
   }
 

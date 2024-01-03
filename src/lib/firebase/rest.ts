@@ -37,8 +37,10 @@ const getHost = () => {
 };
 
 export const fetchFirestore = async <T = FirestoreDocument>(path: string, options?: RequestInit): Promise<T> => {
+  console.log('🛎 ', 'get config');
   const { projectId } = getConfig();
   const url = `${getHost()}/v1/projects/${projectId}/databases/(default)/${path}`;
+  console.log('🛎 ', 'generate token', {url});
   const token = await generateToken();
 
   try {
