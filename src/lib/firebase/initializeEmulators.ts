@@ -11,3 +11,5 @@ export default (auth: Auth) => {
     emulatorsInitialized = true;
   }
 };
+
+export const isEmulatorsInitialized = () => emulatorsInitialized;

@@ -8,6 +8,7 @@ import type {
 } from "./types";
 import generateToken from "./generateToken";
 import getConfig from "./getConfig";
+import { isEmulatorsInitialized } from "~/lib/firebase/initializeEmulators";
 
 const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument, id?: string): T => {
   let result: ConvertedObject = {
@@ -28,7 +29,7 @@ const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument
 };
 
 const getHost = () => {
-  if (!!getAuth().emulatorConfig) {
+  if (isEmulatorsInitialized()) {
     const { protocol, host } = getAuth().emulatorConfig || {};
     return `${protocol}://${host}:8080`;
   } else {

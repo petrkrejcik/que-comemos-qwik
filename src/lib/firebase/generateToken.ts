@@ -1,7 +1,7 @@
 // @ts-ignore
 import { getTokenFromGCPServiceAccount } from "@sagi.io/workers-jwt";
-import getAuth from "./auth";
 import getConfig from "./getConfig";
+import { isEmulatorsInitialized } from "~/lib/firebase/initializeEmulators";
 // import { FlarebaseAuth } from 'flarebase-auth';
 
 // const auth = new FlarebaseAuth({
@@ -40,7 +40,9 @@ export default async () => {
   //   'my@email.com',
   //   'supersecurepassword'
   // );
-  if (!!getAuth().emulatorConfig) {
+  // @ts-ignore
+  // if (!!getAuth.emulators) {
+  if (isEmulatorsInitialized()) {
     return generateEmulatorToken();
   }
 
