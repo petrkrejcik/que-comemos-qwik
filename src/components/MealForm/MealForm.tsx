@@ -1,6 +1,7 @@
 import type { PropFunction } from "@builder.io/qwik";
 import { $ } from "@builder.io/qwik";
 import { component$, useStore } from "@builder.io/qwik";
+import removeMeal from "~/lib/queries/removeMeal";
 import type { Meal } from "~/types";
 
 const EAT_FOR = [
@@ -10,21 +11,31 @@ const EAT_FOR = [
 ];
 
 type Props = {
-  onSave$: PropFunction<(meal: Omit<Meal, "id">) => void>;
+  onAdd$?: PropFunction<(meal: Omit<Meal, "id">) => void>;
+  onUpdate$?: PropFunction<(meal: Meal) => void>;
+  onRemove$?: PropFunction<(meal: Meal) => void>;
   meal?: Meal;
 };
 
 const EMPTY_MEAL: Omit<Meal, "id"> = {
   name: "",
   eatFor: "lunch",
-  withSideDish: false,
 };
 
 export default component$((props: Props) => {
   const form = useStore(props.meal || EMPTY_MEAL);
-  const onSaveClick = $(() => {
+  const onSaveClick = $(async () => {
     if (form.name) {
-      props.onSave$(form);
+      if (props.meal) {
+        await props.onUpdate$?.({
+          ...form,
+          id: props.meal.id,
+        });
+      } else {
+        await props.onAdd$?.(form);
+      }
+      form.name = EMPTY_MEAL.name;
+      form.eatFor = EMPTY_MEAL.eatFor;
     }
   });
 
@@ -44,41 +55,58 @@ export default component$((props: Props) => {
         autoComplete="off"
       />
 
-      <label class="label" for="eatFor">
+      <label class="label mt-4" for="eatFor">
         <span class="label-text">Cuándo se come la comida?</span>
       </label>
-      <select
-        class="select select-bordered w-full max-w-xs"
-        aria-label="Eat for"
-        id="eatFor"
-        onChange$={(e) =>
-          (form.eatFor = e.target.value as "lunch" | "dinner" | "side-dish")
-        }
-        value={form.eatFor}
-      >
-        {EAT_FOR.map((eatFor) => (
-          <option value={eatFor.value} key={eatFor.value}>
-            {eatFor.text}
-          </option>
-        ))}
-      </select>
+      {!!props.meal && (
+        <span class="font-bold">
+          No se puede editar cuando se come la comida. Hay que crear comida
+          nueva
+        </span>
+      )}
+      {EAT_FOR.map((eatFor) => (
+        <div key={eatFor.value} class="form-control">
+          <label class="label cursor-pointer">
+            <span class="label-text">{eatFor.text}</span>
+            <input
+              type="radio"
+              name="eatFor"
+              class="radio checked:bg-primary"
+              checked={form.eatFor === eatFor.value}
+              // Do not allow changing eatFor beacuase it can mess up the planned week - it won't find the meal then
+              disabled={!!props.meal}
+              onChange$={() =>
+                (form.eatFor = eatFor.value as "lunch" | "dinner" | "side-dish")
+              }
+            />
+          </label>
+        </div>
+      ))}
 
-      <label class="cursor-pointer label">
-        <span class="label-text">Puede tener acompañamiento?</span>
-        <input
-          type="checkbox"
-          class="checkbox"
-          checked={!!form.withSideDish}
-          aria-label="Puede tener acompañamiento?"
-          onChange$={(e) => {
-            form.withSideDish = e.target.checked;
+      <div class="w-full mt-8 flex justify-between gap-24">
+        <button
+          type="submit"
+          class="btn btn-outline btn-error"
+          onClick$={() => {
+            if (!props.meal) {
+              return;
+            }
+            if (confirm("Estas seguro que quieres borrar la comida?")) {
+              props.onRemove$?.(props.meal);
+            }
           }}
-        />
-      </label>
+        >
+          Borrar
+        </button>
 
-      <button type="submit" class="btn btn-primary mt-8" onClick$={onSaveClick}>
-        Guardar
-      </button>
+        <button
+          type="submit"
+          class="btn btn-primary  grow"
+          onClick$={onSaveClick}
+        >
+          Guardar
+        </button>
+      </div>
     </form>
   );
 });

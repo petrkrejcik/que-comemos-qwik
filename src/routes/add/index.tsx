@@ -29,7 +29,7 @@ export default component$(() => {
       </Header>
       <MealForm
         q:slot="main"
-        onSave$={async (newMeal) => {
+        onAdd$={async (newMeal) => {
           await addMeal(groupId, newMeal);
           history.back();
         }}

@@ -6,18 +6,17 @@ const meal: Meal = {
   id: "abc",
   name: "Some meal",
   eatFor: "side-dish",
-  withSideDish: true,
 };
 
 const mock = {
-  onSave$: $(async () => {
+  onAdd$: $(async () => {
     return;
   }),
 };
 
 describe(`Form for adding and editing a meal`, () => {
   it("should render the form", () => {
-    cy.mount(<MealForm onSave$={mock.onSave$} />);
+    cy.mount(<MealForm onAdd$={mock.onAdd$} />);
 
     cy.findByRole("textbox", { name: "Meal" })
       .should("be.visible")
@@ -32,8 +31,8 @@ describe(`Form for adding and editing a meal`, () => {
   });
 
   it("should not save if name is not filled", () => {
-    const onSave = cy.spy(mock, "onSave$");
-    cy.mount(<MealForm onSave$={mock.onSave$} />);
+    const onSave = cy.spy(mock, "onAdd$");
+    cy.mount(<MealForm onAdd$={mock.onAdd$} />);
 
     cy.findByRole("button", { name: "Guardar" })
       .click()
@@ -42,8 +41,8 @@ describe(`Form for adding and editing a meal`, () => {
   });
 
   it("should save with correct values", () => {
-    const onSave = cy.spy(mock, "onSave$");
-    cy.mount(<MealForm onSave$={mock.onSave$} />);
+    const onSave = cy.spy(mock, "onAdd$");
+    cy.mount(<MealForm onAdd$={mock.onAdd$} />);
 
     cy.findByRole("textbox", { name: "Meal" }).type("A name");
     cy.findByRole("combobox", { name: "Eat for" }).select("dinner");
@@ -55,12 +54,11 @@ describe(`Form for adding and editing a meal`, () => {
       .should("be.calledWith", {
         name: "A name",
         eatFor: "dinner",
-        withSideDish: true,
       });
   });
 
   it("should render the form with prefilled meal", () => {
-    cy.mount(<MealForm onSave$={mock.onSave$} meal={meal} />);
+    cy.mount(<MealForm onAdd$={mock.onAdd$} meal={meal} />);
 
     cy.findByRole("textbox", { name: "Meal" }).should(
       "have.value",

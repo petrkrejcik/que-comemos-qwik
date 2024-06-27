@@ -3,6 +3,7 @@ import type { PropFunction } from "@builder.io/qwik";
 import { component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import type { MenuItem } from "~/components/Meals/mealsTypes";
+import Menu from "~/components/Menu/Menu";
 
 export type Props = {
   meal: {
@@ -39,26 +40,7 @@ export default component$<Props>((props) => {
           {meal.name}
         </LinkOrButton>
       </div>
-      {props.menu && (
-        <div class="dropdown dropdown-end">
-          <div tabIndex={0} role="button" class="btn btn-ghost m-1">
-            <BsThreeDotsVertical />
-          </div>
-          <ul
-            tabIndex={0}
-            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-          >
-            {props.menu.map((item, i) => (
-              <li key={i}>
-                {item.href && <Link href={item.href}>{item.title}</Link>}
-                {item.onClick$ && (
-                  <span onClick$={item.onClick$}>{item.title}</span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <Menu items={props.menu} />
       {/* <div class="collapse-content flex justify-between">
         {meal.withSideDish && (
           <Link

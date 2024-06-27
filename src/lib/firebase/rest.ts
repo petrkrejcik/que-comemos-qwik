@@ -103,6 +103,10 @@ export const addDocument = async (documentPath: string, document: object): Promi
   await fetchFirestore(`documents/${documentPath}`, { method: "POST", body: JSON.stringify(document) });
 };
 
+export const removeDocument = async (documentPath: string): Promise<void> => {
+  await fetchFirestore(`documents/${documentPath}`, { method: "DELETE" });
+}
+
 /**
  * Performs a structured query.
  * @see https://cloud.google.com/firestore/docs/reference/rest/v1/StructuredQuery

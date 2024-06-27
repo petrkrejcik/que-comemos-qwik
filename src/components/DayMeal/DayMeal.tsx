@@ -8,7 +8,6 @@ import type { PlannedMeal } from "~/lib/weekPlan/weekPlanTypes";
 import type { Meal as MealType } from "~/types";
 
 type Props = {
-  meal: MealType;
   plannedMeal: PlannedMeal;
   onSave$: PropFunction<(plannedMeal: PlannedMeal | undefined) => void>;
 };
@@ -30,15 +29,15 @@ export default component$((props: Props) => {
     isChoosingSideDish.value = false;
   });
 
-  const save = (meal: MealType | undefined) =>
+  const save = (plannedMeal: PlannedMeal | undefined) =>
     $(() => {
       isSaving.value = true;
 
       try {
-        if (meal) {
+        if (plannedMeal) {
           props.onSave$({
-            id: meal.id,
-            name: meal.name,
+            id: plannedMeal.id,
+            name: plannedMeal.name,
             sideDishes: sideDishes.value.map((sideDish) => sideDish),
           });
         } else {
@@ -56,12 +55,16 @@ export default component$((props: Props) => {
   return (
     <div>
       <Meal
-        meal={props.meal}
+        meal={props.plannedMeal}
         href={`/week/${weekId}/${eatForParam}/${day}`}
         menu={[
           {
             title: "Eliminar",
             onClick$: save(undefined),
+          },
+          {
+            title: "Editar",
+            href: `/meals/${props.plannedMeal.id}`,
           },
         ]}
       />
@@ -97,7 +100,7 @@ export default component$((props: Props) => {
       <button
         type="submit"
         class="btn btn-primary mt-8 w-full"
-        onClick$={save(props.meal)}
+        onClick$={save(props.plannedMeal)}
       >
         Guardar
       </button>

@@ -5,7 +5,7 @@ import {
   useResource$,
   useSignal,
 } from "@builder.io/qwik";
-import { Link, useLocation } from "@builder.io/qwik-city";
+import { useLocation } from "@builder.io/qwik-city";
 import Layout from "~/components/Layout/Layout";
 import Meals from "~/components/Meals/Meals";
 import Header from "~/components/Head/Head";
@@ -13,9 +13,9 @@ import getMeals from "~/lib/queries/getMeals";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
 import { useUser } from "~/lib/user/user";
 import getWeekPlan from "~/lib/queries/getWeekPlan";
-import { HiPlusOutline } from "@qwikest/icons/heroicons";
 import { getDayName } from "~/lib/date/date";
 import type { Meal } from "~/types";
+import AddMealButton from "~/components/AddMealButton/AddMealButton";
 
 export default component$(() => {
   const { groupId } = useUser();
@@ -50,16 +50,7 @@ export default component$(() => {
           {getDayName(parseInt(day, 10))}
         </span>
       </Header>
-      <div class={"w-full flex collapse-title"} q:slot="main">
-        <div class="avatar placeholder mr-4">
-          <div class={`rounded-full w-12 h-12`}>
-            <HiPlusOutline />
-          </div>
-        </div>
-        <Link href="/add" class="btn btn-ghost">
-          Añadir comida nueva
-        </Link>
-      </div>
+      <AddMealButton />
       <div q:slot="main">
         <Resource
           value={resources}

@@ -7,6 +7,7 @@ import {
 } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import dayjs from "dayjs";
+import { Loading } from "~/components/Loading/Loading";
 import useDaytime from "~/hooks/useDaytime";
 import { getDayName, getMonday, toWeekId } from "~/lib/date/date";
 import getWeekPlan from "~/lib/queries/getWeekPlan";
@@ -18,15 +19,6 @@ import type { DayNumber } from "~/lib/weekPlan/weekPlanTypes";
 type Props = {
   weekId: string;
 };
-
-const Loading = component$(() => {
-  return (
-    <div
-      class="w-44 h-6 bg-base-200 rounded animate-pulse"
-      role="progressbar"
-    />
-  );
-});
 
 export default component$((props: Props) => {
   const { groupId, loading } = useUser();

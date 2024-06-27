@@ -20,15 +20,15 @@ export default component$(() => {
     const dayId = day2DayId(day);
     const eatFor =
       eatForParam === "lunch-side-dish" ? "side-dish" : eatForParam;
-    const meals = await getMeals(groupId, eatFor);
-    const meal = meals.find((m) => m.id === mealId);
-    if (!meal) {
-      throw new Error("Meal not found");
-    }
     const weekPlan = await getWeekPlan(weekId, groupId);
     const dayPlan = weekPlan[dayId];
     let plannedMeal = dayPlan?.[eatFor as keyof typeof dayPlan];
     if (!plannedMeal) {
+      const meals = await getMeals(groupId, eatFor);
+      const meal = meals.find((m) => m.id === mealId);
+      if (!meal) {
+        throw new Error("Meal not found");
+      }
       plannedMeal = {
         id: meal.id,
         name: meal.name,
@@ -43,7 +43,6 @@ export default component$(() => {
           [eatFor]: plannedMeal,
         },
       };
-      // delete newWeekPlan[dayId]?.[`${meal as "lunch"}-side-dish`]; // `meal` should be properly typed
       try {
         await selectMeal(groupId, weekId, newWeekPlan);
         nav(`/week/${weekId}/${eatFor}`);
@@ -51,7 +50,7 @@ export default component$(() => {
         console.error(error);
       }
     });
-    return { meal, plannedMeal, onSave };
+    return { plannedMeal, onSave };
   });
 
   return (
@@ -78,10 +77,8 @@ export default component$(() => {
             console.error(e);
             return <p>Rejected</p>;
           }}
-          onResolved={({ meal, plannedMeal, onSave }) => {
-            return (
-              <DayMeal meal={meal} plannedMeal={plannedMeal} onSave$={onSave} />
-            );
+          onResolved={({ plannedMeal, onSave }) => {
+            return <DayMeal plannedMeal={plannedMeal} onSave$={onSave} />;
           }}
         />
       </div>

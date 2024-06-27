@@ -121,8 +121,7 @@ Cypress E2E tests cannot handle when a tests imports a file that contains refere
           "eatFor": "lunch"|"dinner"|"side-dish",
           "category": "fish"|"meat",
           "lastEaten": "datetime",
-          "forChild": "boolean",
-          "withSideDish": "boolean" // If side dish is allowed
+          "forChild": "boolean"
         }
       },
       "/weekPlans": {

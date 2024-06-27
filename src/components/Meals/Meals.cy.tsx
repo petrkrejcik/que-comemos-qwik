@@ -7,7 +7,6 @@ const MEALS: Meal[] = [
     id: "abc",
     name: "Meal 1",
     eatFor: "lunch",
-    withSideDish: true,
   },
   {
     id: "def",
@@ -18,7 +17,6 @@ const MEALS: Meal[] = [
     id: "ghi",
     name: "Meal 3",
     eatFor: "lunch",
-    withSideDish: true,
   },
   {
     id: "xyz",

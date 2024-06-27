@@ -9,7 +9,9 @@ export default component$(() => {
       <div class="navbar-center">
         <Slot name="center" />
       </div>
-      <div class="navbar-end" />
+      <div class="navbar-end">
+        <Slot name="end" />
+      </div>
     </header>
   );
 });
