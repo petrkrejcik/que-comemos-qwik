@@ -6,6 +6,7 @@ export default async (weekId: string, groupId: string) => {
     const doc = await getDocument<WeekPlan>(`groups/${groupId}/weekPlans/${weekId}`);
     return doc;
   } catch (e) {
+    console.error(e);
     return {}
   }
 };

@@ -1,5 +1,14 @@
 # Que comemos
 
+## Run
+```sh
+yarn dev
+```
+
+```sh
+yarn emulators:start
+```
+
 ## TODO
 - [x] Format week name
 - [x] Week days
@@ -43,9 +52,21 @@ onSelect$: PropFunction<
 And it wasn't possible to get the types correct in the tests. In the end I've decided to use simple action because I don't want to go through the backend to reach Firebase.
 - When using `routeLoader$` it fetches server on every page nav even on client navigation. I just want to to te executed for the first server-side fetch and then no.
 - I would like to prefetch some Firestore calls but I don't know how to do that.
-- I like to `<Slot />` API
+- I like the `<Slot />` API
 - There is `useErrorBoundary()` but it's not documented so I don't know how error boundaries work
 - Component tests are intercepting `/api/auth` because this route is used to refresh token. But as we have a fake token in tests we don't need that. Even the route is not accessible because when running component tests we don't have express server running for listening on that path.
+- Qwik doesn't allow looping through the children. Example:
+```ts
+<ul>
+  {props.children((Child, i) => {
+    return (
+      <li key={child.id}>
+        <Child />
+      </li>
+    );
+  })}
+</ul>
+```
 
 ## DB seeding
 - It's difficult to write tests without knowing what's stored in the database. It would be better to seed the DB in each test separately.
@@ -111,7 +132,13 @@ Cypress E2E tests cannot handle when a tests imports a file that contains refere
               "icon": ":emoji",
               "category": "string",
               "id": "abc123",
-              "name": "duplicated name"
+              "name": "duplicated name",
+              "sideDishes": [
+                {
+                  "id": "xyz456",
+                  "name": "duplicated name",
+                }
+              ]
             }
           }
         }

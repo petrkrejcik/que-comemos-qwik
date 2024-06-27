@@ -21,17 +21,19 @@ export default function convertDocToFirestoreDoc(doc: any) {
       result.fields[key] = {
         nullValue: null,
       };
-    // } else if (Array.isArray(value)) {
-    //   result.fields[key] = {
-    //     arrayValue: {
-    //       values: value.map((v) => convertDocToFirestoreDoc(v)),
-    //     },
-    //   };
+    } else if (Array.isArray(value)) {
+      result.fields[key] = {
+        arrayValue: {
+          // Won't for storing other type than objects. Fix it.
+          values: value.map((item) => ({ mapValue: convertDocToFirestoreDoc(item) })),
+        },
+      };
     } else if (typeof value === "object") {
       result.fields[key] = {
         mapValue: convertDocToFirestoreDoc(value),
       };
     }
   });
+
   return result;
 };

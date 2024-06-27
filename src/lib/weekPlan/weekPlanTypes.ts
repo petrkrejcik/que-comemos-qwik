@@ -3,6 +3,10 @@ export interface PlannedMeal {
   name: string;
   icon?: string;
   eatFor?: string;
+  sideDishes?: {
+    id: string;
+    name: string;
+  }[];
 }
 
 interface Day {

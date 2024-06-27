@@ -19,7 +19,11 @@ const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument
   }
   Object.entries(doc.fields).forEach(([key, value]) => {
     if ("mapValue" in value) {
-      result[key] = convertFirestoreDocToObject(value.mapValue);
+      result[key] = convertFirestoreDocToObject(value.mapValue, id);
+    } else if ("arrayValue" in value) {
+      // There might be some issue, I just did this fast and ignored the TS error
+      // @ts-ignore
+      result[key] = value.arrayValue.values?.map((item) => convertFirestoreDocToObject(item.mapValue, id));
     } else {
       const valueType = Object.keys(value)[0] as keyof FirestoreFieldValue;
       result[key] = value[valueType];

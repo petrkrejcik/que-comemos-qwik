@@ -26,6 +26,7 @@ describe(`When user selects a meal`, () => {
   describe(`and there was previously meal with a side-dish`, () => {
     before(() => {
       cy.logout();
+      cy.storeToken();
       cy.clearDb();
       cy.seedDb();
       cy.addWeekPlan("2023-05-01", {

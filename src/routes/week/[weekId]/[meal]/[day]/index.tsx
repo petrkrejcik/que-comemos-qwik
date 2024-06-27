@@ -1,4 +1,5 @@
 import {
+  $,
   Resource,
   component$,
   useResource$,
@@ -9,12 +10,12 @@ import Layout from "~/components/Layout/Layout";
 import Meals from "~/components/Meals/Meals";
 import Header from "~/components/Head/Head";
 import getMeals from "~/lib/queries/getMeals";
-import type { WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
-import selectMeal from "~/lib/queries/selectMeal";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
 import { useUser } from "~/lib/user/user";
 import getWeekPlan from "~/lib/queries/getWeekPlan";
 import { HiPlusOutline } from "@qwikest/icons/heroicons";
+import { getDayName } from "~/lib/date/date";
+import type { Meal } from "~/types";
 
 export default component$(() => {
   const { groupId } = useUser();
@@ -45,6 +46,9 @@ export default component$(() => {
         >
           <HiArrowLeftOutline />
         </span>
+        <span class="text-lg" q:slot="center">
+          {getDayName(parseInt(day, 10))}
+        </span>
       </Header>
       <div class={"w-full flex collapse-title"} q:slot="main">
         <div class="avatar placeholder mr-4">
@@ -61,42 +65,13 @@ export default component$(() => {
           value={resources}
           onPending={() => <>loading</>}
           onRejected={() => <p>Rejected</p>}
-          onResolved={({ meals, weekPlan }) => {
+          onResolved={({ meals }) => {
             return (
               <Meals
                 q:slot="main"
                 meals={meals}
                 isSaving={isSaving.value}
-                onSelect$={async (mealId) => {
-                  isSaving.value = true;
-                  const dayId = `d${day}` as
-                    | "d0"
-                    | "d1"
-                    | "d2"
-                    | "d3"
-                    | "d4"
-                    | "d5"
-                    | "d6";
-                  const newWeekPlan: WeekPlan = {
-                    ...weekPlan,
-                    [dayId]: {
-                      ...(weekPlan[dayId] || {}),
-                      [meal]: {
-                        id: mealId,
-                        name: meals.find((m) => m.id === mealId)?.name || "",
-                      },
-                    },
-                  };
-                  delete newWeekPlan[dayId]?.[`${meal as "lunch"}-side-dish`]; // `meal` should be properly typed
-                  try {
-                    await selectMeal(groupId, weekId, newWeekPlan);
-                    isSaving.value = false;
-                    window.history.back();
-                  } catch (error) {
-                    console.error(error);
-                    isSaving.value = false;
-                  }
-                }}
+                createHref$={$((meal: Meal) => meal.id)}
               />
             );
           }}

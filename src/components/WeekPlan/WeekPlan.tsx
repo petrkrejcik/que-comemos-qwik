@@ -8,7 +8,7 @@ import {
 import { Link } from "@builder.io/qwik-city";
 import dayjs from "dayjs";
 import useDaytime from "~/hooks/useDaytime";
-import { getMonday, toWeekId } from "~/lib/date/date";
+import { getDayName, getMonday, toWeekId } from "~/lib/date/date";
 import getWeekPlan from "~/lib/queries/getWeekPlan";
 import selectMeal from "~/lib/queries/selectMeal";
 import swapMeals from "~/lib/queries/swapMeals";
@@ -18,17 +18,6 @@ import type { DayNumber } from "~/lib/weekPlan/weekPlanTypes";
 type Props = {
   weekId: string;
 };
-
-const dayNamesES = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"];
-const dayNamesLongES = [
-  "Lunes",
-  "Martes",
-  "Miércoles",
-  "Jueves",
-  "Viernes",
-  "Sábado",
-  "Domingo",
-];
 
 const Loading = component$(() => {
   return (
@@ -43,7 +32,6 @@ export default component$((props: Props) => {
   const { groupId, loading } = useUser();
   const rerender = useSignal("");
   const daytime = useDaytime();
-  const sideDishKey = `${daytime}-side-dish` as const;
   const weekPlanResource = useResource$(async ({ track }) => {
     track(() => props.weekId);
     track(() => loading);
@@ -119,7 +107,7 @@ export default component$((props: Props) => {
                       isToday(day) ? "text-neutral" : ""
                     }`}
                   >
-                    {dayNamesES[day]}
+                    {getDayName(day).slice(0, 2)}
                   </span>
                 </div>
               </div>
@@ -134,22 +122,26 @@ export default component$((props: Props) => {
                     }
                     const meals = weekPlan[`d${day}`];
                     const meal = meals?.[daytime];
-                    const sideDish = meals?.[sideDishKey];
+                    const sideDishes = meal?.sideDishes || [];
                     if (!meal) {
                       return (
                         <Link
                           href={`/week/${props.weekId}/${daytime}/${day}`}
                           class="btn btn-ghost"
-                          aria-label={`Elegir ${dayNamesLongES[day]}`}
+                          aria-label={`Elegir ${getDayName(day)}`}
                         >
                           Elegir
                         </Link>
                       );
                     }
                     return (
-                      <Link href={`/week/${props.weekId}/${daytime}/${day}`}>
+                      <Link
+                        href={`/week/${props.weekId}/${daytime}/${day}/${meal.id}`}
+                      >
                         {meal.name}
-                        {sideDish ? ` con ${sideDish.name}` : ""}
+                        {sideDishes.map((sideDish) => (
+                          <span key={sideDish.id}> con {sideDish.name}</span>
+                        ))}
                       </Link>
                     );
                   }}

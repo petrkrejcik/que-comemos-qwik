@@ -1,6 +1,6 @@
 import "@testing-library/cypress/add-commands";
 import "cypress-wait-until";
-import { addDocument, fetchFirestore } from "./firebase/rest";
+import { addDocument, fetchFirestore, getToken } from "./firebase/rest";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { DEFAULT_USER } from "../fixtures/users";
 import { MEALS } from "../fixtures/meals";
@@ -44,6 +44,7 @@ declare global {
       clearFirebaseAuth(): Chainable<void>;
       clearDb(): Chainable<void>;
       seedDb(): Chainable<void>;
+      storeToken(user?: { email: string; password: string }): Chainable<void>;
       addDocument(path: string, content: any): Chainable<void>;
       addMeal(meal: any, groupId?: string): Chainable<void>;
       addWeekPlan(
@@ -68,6 +69,19 @@ Cypress.Commands.add("visitAsLogged", (url, user, options) => {
   cy.waitUntil(() =>
     cy.getCookie("user_token").then((cookie) => Boolean(cookie && cookie.value))
   );
+});
+
+/**
+ * It could also accept a user object with email and password.
+ */
+Cypress.Commands.add("storeToken", (user) => {
+  const userToUse = user || DEFAULT_USER;
+  cy.waitUntil(() => {
+    return getToken().then((token) => {
+      cy.setCookie("idToken", token);
+      return Boolean(token);
+    });
+  });
 });
 
 Cypress.Commands.add("clearFirebaseAuth", () => {

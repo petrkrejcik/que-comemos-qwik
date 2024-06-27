@@ -2,6 +2,11 @@ import convertDocToFirestoreDoc from "../../../src/lib/firebase/convertObjToDoc"
 import { DEFAULT_USER } from "../../fixtures/users";
 
 export const getToken = async () => {
+  const { cookies } = await Cypress.session.getCurrentSessionData();
+  const idToken = cookies?.find((cookie) => cookie.name === "idToken");
+  if (idToken) {
+    return idToken.value;
+  }
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
