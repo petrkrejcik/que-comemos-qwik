@@ -13,7 +13,7 @@ import type { Meal } from "~/types";
 export default component$(() => {
   const { groupId } = useUser();
   const loadMeals = useResource$(async () => {
-    const meals = await getMeals(groupId);
+    const meals = await getMeals(groupId, ["dinner"]);
 
     return { meals };
   });
@@ -36,7 +36,10 @@ export default component$(() => {
         <Resource
           value={loadMeals}
           onPending={() => <Loading />}
-          onRejected={() => <p>Rejected</p>}
+          onRejected={(e) => {
+            console.error(e);
+            return <p>Rejected</p>;
+          }}
           onResolved={({ meals }) => (
             <Meals meals={meals} createHref$={(meal: Meal) => meal.id} />
           )}

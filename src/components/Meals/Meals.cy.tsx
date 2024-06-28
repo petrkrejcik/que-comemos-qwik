@@ -6,22 +6,22 @@ const MEALS: Meal[] = [
   {
     id: "abc",
     name: "Meal 1",
-    eatFor: "lunch",
+    eatFor: ["lunch"],
   },
   {
     id: "def",
     name: "Meal 2",
-    eatFor: "dinner",
+    eatFor: ["dinner"],
   },
   {
     id: "ghi",
     name: "Meal 3",
-    eatFor: "lunch",
+    eatFor: ["lunch"],
   },
   {
     id: "xyz",
     name: "Sidedish 1",
-    eatFor: "side-dish",
+    eatFor: ["side-dish"],
   },
 ];
 

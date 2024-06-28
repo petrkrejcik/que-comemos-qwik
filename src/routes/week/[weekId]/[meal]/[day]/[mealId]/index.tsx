@@ -10,21 +10,20 @@ import getWeekPlan from "~/lib/queries/getWeekPlan";
 import { day2DayId, getDayName } from "~/lib/date/date";
 import DayMeal from "~/components/DayMeal/DayMeal";
 import selectMeal from "~/lib/queries/selectMeal";
+import useDaytime from "~/hooks/useDaytime";
 
 export default component$(() => {
   const { groupId } = useUser();
   const nav = useNavigate();
-  const { weekId, day, meal: eatForParam, mealId } = useLocation().params;
-  // const meal = useDaytime() // todo: use better this
+  const { weekId, day, mealId } = useLocation().params;
+  const eatFor = useDaytime();
   const resources = useResource$(async () => {
     const dayId = day2DayId(day);
-    const eatFor =
-      eatForParam === "lunch-side-dish" ? "side-dish" : eatForParam;
     const weekPlan = await getWeekPlan(weekId, groupId);
     const dayPlan = weekPlan[dayId];
     let plannedMeal = dayPlan?.[eatFor as keyof typeof dayPlan];
     if (!plannedMeal) {
-      const meals = await getMeals(groupId, eatFor);
+      const meals = await getMeals(groupId, [eatFor]);
       const meal = meals.find((m) => m.id === mealId);
       if (!meal) {
         throw new Error("Meal not found");

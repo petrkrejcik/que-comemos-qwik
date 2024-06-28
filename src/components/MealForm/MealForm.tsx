@@ -1,14 +1,13 @@
 import type { PropFunction } from "@builder.io/qwik";
 import { $ } from "@builder.io/qwik";
 import { component$, useStore } from "@builder.io/qwik";
-import removeMeal from "~/lib/queries/removeMeal";
 import type { Meal } from "~/types";
 
 const EAT_FOR = [
   { value: "lunch", text: "Comida" },
   { value: "dinner", text: "Cena" },
   { value: "side-dish", text: "Acompañamiento" },
-];
+] as const;
 
 type Props = {
   onAdd$?: PropFunction<(meal: Omit<Meal, "id">) => void>;
@@ -19,13 +18,13 @@ type Props = {
 
 const EMPTY_MEAL: Omit<Meal, "id"> = {
   name: "",
-  eatFor: "lunch",
+  eatFor: ["lunch"],
 };
 
 export default component$((props: Props) => {
   const form = useStore(props.meal || EMPTY_MEAL);
   const onSaveClick = $(async () => {
-    if (form.name) {
+    if (form.name && form.eatFor.length) {
       if (props.meal) {
         await props.onUpdate$?.({
           ...form,
@@ -69,6 +68,21 @@ export default component$((props: Props) => {
           <label class="label cursor-pointer">
             <span class="label-text">{eatFor.text}</span>
             <input
+              type="checkbox"
+              class="checkbox"
+              checked={form.eatFor.includes(eatFor.value)}
+              onChange$={() => {
+                form.eatFor.includes(eatFor.value)
+                  ? (form.eatFor = form.eatFor.filter(
+                      (e) => e !== eatFor.value
+                    ))
+                  : (form.eatFor = [...form.eatFor, eatFor.value]);
+              }}
+            />
+          </label>
+          {/* <label class="label cursor-pointer">
+            <span class="label-text">{eatFor.text}</span>
+            <input
               type="radio"
               name="eatFor"
               class="radio checked:bg-primary"
@@ -79,7 +93,7 @@ export default component$((props: Props) => {
                 (form.eatFor = eatFor.value as "lunch" | "dinner" | "side-dish")
               }
             />
-          </label>
+          </label> */}
         </div>
       ))}
 

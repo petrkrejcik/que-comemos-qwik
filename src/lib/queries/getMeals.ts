@@ -1,7 +1,9 @@
-import { getCollection, query } from "~/lib/firebase/rest";
+// Some TS error when I used `ARRAY_CONTAINS_ANY`
+// @ts-nocheck
+import { query } from "~/lib/firebase/rest";
 import { Meal } from "~/types";
 
-export default async (groupId: string, eatFor?: string) => {
+export default async (groupId: string, eatFor?: Array<'lunch' | 'dinner' | 'side-dish'>) => {
   const collection = await query<Meal>(`groups/${groupId}`, {
     from: [
       {
@@ -14,9 +16,13 @@ export default async (groupId: string, eatFor?: string) => {
           field: {
             fieldPath: "eatFor",
           },
-          op: "EQUAL",
+          op: "ARRAY_CONTAINS_ANY",
           value: {
-            stringValue: eatFor,
+            arrayValue: {
+              values: eatFor.map((eatFor) => ({
+                stringValue: eatFor,
+              })),
+            },
           },
         },
       },

@@ -21,9 +21,19 @@ const convertFirestoreDocToObject = <T = ConvertedObject>(doc: FirestoreDocument
     if ("mapValue" in value) {
       result[key] = convertFirestoreDocToObject(value.mapValue, id);
     } else if ("arrayValue" in value) {
-      // There might be some issue, I just did this fast and ignored the TS error
-      // @ts-ignore
-      result[key] = value.arrayValue.values?.map((item) => convertFirestoreDocToObject(item.mapValue, id));
+      result[key] = value.arrayValue.values?.map((item) => {
+        // Not sure how to fix it
+        // @ts-ignore
+        if (item.mapValue) {
+          // @ts-ignore
+          return convertFirestoreDocToObject(item.mapValue, id);
+        }
+        // @ts-ignore
+        if (item.stringValue) {
+          // @ts-ignore
+          return item.stringValue;
+        }
+      });
     } else {
       const valueType = Object.keys(value)[0] as keyof FirestoreFieldValue;
       result[key] = value[valueType];
@@ -71,7 +81,8 @@ export const fetchFirestore = async <T = FirestoreDocument>(path: string, option
 
 export const getDocument = async <T = ConvertedObject>(documentPath: string): Promise<T> => {
   const data = await fetchFirestore(`documents/${documentPath}`);
-  const result = convertFirestoreDocToObject<T>(data);
+  const id = documentPath.split("/").pop();
+  const result = convertFirestoreDocToObject<T>(data, id);
   return result;
 };
 

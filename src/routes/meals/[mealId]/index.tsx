@@ -3,23 +3,19 @@ import { $, Resource, component$, useResource$ } from "@builder.io/qwik";
 import { useLocation, type DocumentHead } from "@builder.io/qwik-city";
 import Layout from "~/components/Layout/Layout";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
-import getMeals from "~/lib/queries/getMeals";
 import { useUser } from "~/lib/user/user";
 import { Loading } from "~/components/Loading/Loading";
 import type { Meal } from "~/types";
 import MealForm from "~/components/MealForm/MealForm";
 import updateMeal from "~/lib/queries/updateMeal";
 import removeMeal from "~/lib/queries/removeMeal";
+import getMeal from "~/lib/queries/getMeal";
 
 export default component$(() => {
   const { groupId } = useUser();
   const { mealId } = useLocation().params;
   const loadMeal = useResource$(async () => {
-    const meals = await getMeals(groupId);
-    const meal = meals.find((m) => m.id === mealId);
-    if (!meal) {
-      throw new Error(`Meal with id ${mealId} not found`);
-    }
+    const meal = await getMeal(groupId, mealId);
 
     return { meal };
   });

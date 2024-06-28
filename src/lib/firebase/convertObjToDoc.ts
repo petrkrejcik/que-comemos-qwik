@@ -22,10 +22,16 @@ export default function convertDocToFirestoreDoc(doc: any) {
         nullValue: null,
       };
     } else if (Array.isArray(value)) {
+      console.log('🛎 ', 'value', value);
       result.fields[key] = {
         arrayValue: {
-          // Won't for storing other type than objects. Fix it.
-          values: value.map((item) => ({ mapValue: convertDocToFirestoreDoc(item) })),
+          values: value.map((item) => {
+            if (typeof item === "object") {
+              return ({ mapValue: convertDocToFirestoreDoc(item) });
+            } else {
+              return ({ stringValue: item });
+            }
+          }),
         },
       };
     } else if (typeof value === "object") {
@@ -34,6 +40,7 @@ export default function convertDocToFirestoreDoc(doc: any) {
       };
     }
   });
+  console.log('🛎 ', 'result', result);
 
   return result;
 };

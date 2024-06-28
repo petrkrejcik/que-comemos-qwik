@@ -16,15 +16,15 @@ import getWeekPlan from "~/lib/queries/getWeekPlan";
 import { getDayName } from "~/lib/date/date";
 import type { Meal } from "~/types";
 import AddMealButton from "~/components/AddMealButton/AddMealButton";
+import useDaytime from "~/hooks/useDaytime";
 
 export default component$(() => {
   const { groupId } = useUser();
   const { weekId, day, meal } = useLocation().params;
-  // const meal = useDaytime() // todo: use better this
+  const eatFor = useDaytime();
   const resources = useResource$(async ({ track }) => {
     track(() => meal);
-    const eatFor = meal === "lunch-side-dish" ? "side-dish" : meal;
-    const meals = await getMeals(groupId, eatFor);
+    const meals = await getMeals(groupId, [eatFor]);
     const weekPlan = await getWeekPlan(weekId, groupId);
     return { meals, weekPlan };
   });

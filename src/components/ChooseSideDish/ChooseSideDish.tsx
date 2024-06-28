@@ -15,7 +15,7 @@ export default component$((props: Props) => {
   const { mealId } = useLocation().params;
   const resources = useResource$(async ({ track }) => {
     track(() => mealId);
-    const sideDishes = await getMeals(groupId, "side-dish");
+    const sideDishes = await getMeals(groupId, ["side-dish"]);
 
     return { sideDishes };
   });

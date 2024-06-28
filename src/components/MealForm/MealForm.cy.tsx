@@ -5,7 +5,7 @@ import type { Meal } from "~/types";
 const meal: Meal = {
   id: "abc",
   name: "Some meal",
-  eatFor: "side-dish",
+  eatFor: ["side-dish"],
 };
 
 const mock = {
