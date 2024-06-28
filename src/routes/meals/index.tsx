@@ -13,7 +13,7 @@ import type { Meal } from "~/types";
 export default component$(() => {
   const { groupId } = useUser();
   const loadMeals = useResource$(async () => {
-    const meals = await getMeals(groupId, ["dinner"]);
+    const meals = await getMeals(groupId);
 
     return { meals };
   });
