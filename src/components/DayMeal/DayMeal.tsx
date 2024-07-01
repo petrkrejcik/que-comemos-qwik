@@ -4,6 +4,7 @@ import { useLocation } from "@builder.io/qwik-city";
 import { HiPlusOutline } from "@qwikest/icons/heroicons";
 import ChooseSideDish from "~/components/ChooseSideDish/ChooseSideDish";
 import Meal from "~/components/Meals/Meal";
+import useDaytime from "~/hooks/useDaytime";
 import type { PlannedMeal } from "~/lib/weekPlan/weekPlanTypes";
 import type { Meal as MealType } from "~/types";
 
@@ -13,7 +14,8 @@ type Props = {
 };
 
 export default component$((props: Props) => {
-  const { weekId, day, meal: eatForParam } = useLocation().params;
+  const { weekId, day } = useLocation().params;
+  const daytime = useDaytime();
   const isChoosingSideDish = useSignal(false);
   const isSaving = useSignal(false);
   const sideDishes = useSignal(props.plannedMeal.sideDishes || []);
@@ -56,15 +58,15 @@ export default component$((props: Props) => {
     <div>
       <Meal
         meal={props.plannedMeal}
-        href={`/week/${weekId}/${eatForParam}/${day}`}
+        href={`/week/${weekId}/${daytime}/${day}`}
         menu={[
-          {
-            title: "Eliminar",
-            onClick$: save(undefined),
-          },
           {
             title: "Editar",
             href: `/meals/${props.plannedMeal.id}`,
+          },
+          {
+            title: "Eliminar",
+            onClick$: save(undefined),
           },
         ]}
       />

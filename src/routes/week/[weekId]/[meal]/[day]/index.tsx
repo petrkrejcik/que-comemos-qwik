@@ -17,14 +17,17 @@ import { getDayName } from "~/lib/date/date";
 import type { Meal } from "~/types";
 import AddMealButton from "~/components/AddMealButton/AddMealButton";
 import useDaytime from "~/hooks/useDaytime";
+import useMealsFilter from "~/components/MealsFilter/useMealsFilter";
+import MealsFilter from "~/components/MealsFilter/MealsFilter";
 
 export default component$(() => {
   const { groupId } = useUser();
   const { weekId, day, meal } = useLocation().params;
   const eatFor = useDaytime();
+  const mealsFilter = useMealsFilter([eatFor]);
   const resources = useResource$(async ({ track }) => {
     track(() => meal);
-    const meals = await getMeals(groupId, [eatFor]);
+    const meals = await getMeals(groupId);
     const weekPlan = await getWeekPlan(weekId, groupId);
     return { meals, weekPlan };
   });
@@ -52,6 +55,7 @@ export default component$(() => {
       </Header>
       <AddMealButton />
       <div q:slot="main">
+        <MealsFilter filter={mealsFilter} key={mealsFilter.values.join("")} />
         <Resource
           value={resources}
           onPending={() => <>loading</>}
@@ -60,7 +64,9 @@ export default component$(() => {
             return (
               <Meals
                 q:slot="main"
-                meals={meals}
+                meals={meals.filter((m) =>
+                  m.eatFor.some((eatFor) => mealsFilter.values.includes(eatFor))
+                )}
                 isSaving={isSaving.value}
                 createHref$={$((meal: Meal) => meal.id)}
               />

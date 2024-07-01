@@ -1,13 +1,8 @@
 import type { PropFunction } from "@builder.io/qwik";
 import { $ } from "@builder.io/qwik";
 import { component$, useStore } from "@builder.io/qwik";
+import { EAT_FOR } from "~/lib/constants";
 import type { Meal } from "~/types";
-
-const EAT_FOR = [
-  { value: "lunch", text: "Comida" },
-  { value: "dinner", text: "Cena" },
-  { value: "side-dish", text: "Acompañamiento" },
-] as const;
 
 type Props = {
   onAdd$?: PropFunction<(meal: Omit<Meal, "id">) => void>;

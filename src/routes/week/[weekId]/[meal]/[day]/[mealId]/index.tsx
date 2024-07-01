@@ -2,7 +2,6 @@ import { Resource, component$, useResource$, $ } from "@builder.io/qwik";
 import { useLocation, useNavigate } from "@builder.io/qwik-city";
 import Layout from "~/components/Layout/Layout";
 import Header from "~/components/Head/Head";
-import getMeals from "~/lib/queries/getMeals";
 import type { PlannedMeal, WeekPlan } from "~/lib/weekPlan/weekPlanTypes";
 import { HiArrowLeftOutline } from "@qwikest/icons/heroicons";
 import { useUser } from "~/lib/user/user";
@@ -11,6 +10,7 @@ import { day2DayId, getDayName } from "~/lib/date/date";
 import DayMeal from "~/components/DayMeal/DayMeal";
 import selectMeal from "~/lib/queries/selectMeal";
 import useDaytime from "~/hooks/useDaytime";
+import getMeal from "~/lib/queries/getMeal";
 
 export default component$(() => {
   const { groupId } = useUser();
@@ -21,10 +21,9 @@ export default component$(() => {
     const dayId = day2DayId(day);
     const weekPlan = await getWeekPlan(weekId, groupId);
     const dayPlan = weekPlan[dayId];
-    let plannedMeal = dayPlan?.[eatFor as keyof typeof dayPlan];
-    if (!plannedMeal) {
-      const meals = await getMeals(groupId, [eatFor]);
-      const meal = meals.find((m) => m.id === mealId);
+    let plannedMeal = dayPlan?.[eatFor];
+    if (!plannedMeal || plannedMeal.id !== mealId) {
+      const meal = await getMeal(groupId, mealId);
       if (!meal) {
         throw new Error("Meal not found");
       }

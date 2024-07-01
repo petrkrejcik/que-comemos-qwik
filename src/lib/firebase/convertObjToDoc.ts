@@ -22,7 +22,6 @@ export default function convertDocToFirestoreDoc(doc: any) {
         nullValue: null,
       };
     } else if (Array.isArray(value)) {
-      console.log('🛎 ', 'value', value);
       result.fields[key] = {
         arrayValue: {
           values: value.map((item) => {
@@ -40,7 +39,6 @@ export default function convertDocToFirestoreDoc(doc: any) {
       };
     }
   });
-  console.log('🛎 ', 'result', result);
 
   return result;
 };
