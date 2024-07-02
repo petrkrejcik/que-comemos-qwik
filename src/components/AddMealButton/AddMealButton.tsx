@@ -4,7 +4,7 @@ import { HiPlusOutline } from "@qwikest/icons/heroicons";
 
 export default component$(() => {
   return (
-    <div class={"w-full flex collapse-title"} q:slot="main">
+    <div class="w-full flex px-2" q:slot="main">
       <div class="avatar placeholder mr-4">
         <div class={`rounded-full w-12 h-12`}>
           <HiPlusOutline />

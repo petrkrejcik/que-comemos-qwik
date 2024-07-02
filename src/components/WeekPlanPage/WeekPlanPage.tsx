@@ -12,7 +12,7 @@ type Props = {
 
 export default component$((props: Props) => {
   return (
-    <Layout>
+    <Layout mainClass="-mt-2">
       <Header q:slot="header">
         <WeekSelect weekId={props.weekId} q:slot="center" />
         <Menu

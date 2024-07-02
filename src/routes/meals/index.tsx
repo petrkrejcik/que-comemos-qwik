@@ -33,6 +33,7 @@ export default component$(() => {
       </Header>
       <div q:slot="main">
         <AddMealButton />
+        <div class="divider my-0"></div>
         <Resource
           value={loadMeals}
           onPending={() => <Loading />}
